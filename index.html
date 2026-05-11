@@ -655,18 +655,20 @@
     }
 
     .cover-stage {
-      overflow: auto;
+      overflow: hidden;
       padding: 18px;
       background: #e8ecf5;
       border-radius: 16px;
       border: 1px solid #d3d9e8;
       display: flex;
       justify-content: center;
+      align-items: flex-start;
     }
 
     .cover-page {
       width: 794px;
       min-height: 1123px;
+      transform-origin: top center;
       background: white;
       margin: 0 auto;
       padding: 72px 78px;
@@ -1049,9 +1051,9 @@
       }
 
       .cover-stage {
-        justify-content: flex-start;
+        justify-content: center;
         padding: 12px;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
       }
 
       .footer-note {
@@ -1094,6 +1096,16 @@
     }
 
     @media print {
+      html,
+      body {
+        width: 210mm !important;
+        height: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: white !important;
+      }
+
       body * {
         visibility: hidden !important;
       }
@@ -1108,23 +1120,31 @@
       }
 
       #printArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 210mm !important;
+        height: 297mm !important;
         padding: 0 !important;
         margin: 0 !important;
         background: white !important;
         border: none !important;
-        overflow: visible !important;
+        overflow: hidden !important;
+        display: block !important;
       }
 
       .cover-page {
-        width: 210mm;
-        min-height: 297mm;
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 0 !important;
         margin: 0 !important;
         box-shadow: none !important;
-        page-break-after: avoid;
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        transform: none !important;
+        overflow: hidden !important;
       }
 
       @page {
@@ -1494,6 +1514,20 @@
       logoArea.replaceWith(img);
     }
 
+    function resizeCoverPreview() {
+      const stage = document.getElementById("printArea");
+      const page = document.getElementById("coverPage");
+      if (!stage || !page) return;
+
+      const availableWidth = stage.clientWidth - 24;
+      const originalWidth = 794;
+      const originalHeight = 1123;
+      const scale = Math.min(1, availableWidth / originalWidth);
+
+      page.style.transform = `scale(${scale})`;
+      stage.style.height = `${originalHeight * scale + 36}px`;
+    }
+
     function textOrDefault(value, fallback) {
       return value.trim() || fallback;
     }
@@ -1523,6 +1557,7 @@
       editor.classList.add("active");
       editor.scrollIntoView({ behavior: "smooth", block: "start" });
       updatePreview();
+      setTimeout(resizeCoverPreview, 50);
     }
 
     function clearForm() {
@@ -1550,6 +1585,8 @@
 
     setLogo();
     updatePreview();
+    resizeCoverPreview();
+    window.addEventListener("resize", resizeCoverPreview);
   </script>
 </body>
 </html>
