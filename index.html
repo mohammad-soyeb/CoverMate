@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>University Cover Page Maker</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --primary: #233876;
+      --primary-dark: #1a2b59;
+      --border: #d9dee8;
+      --shadow: 0 16px 40px rgba(17, 24, 39, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .site-header {
+      background: linear-gradient(135deg, #1d2f68, #2b4aa0);
+      color: white;
+      padding: 44px 20px;
+      text-align: center;
+    }
+
+    .site-header h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      margin-bottom: 10px;
+      letter-spacing: -0.8px;
+    }
+
+    .site-header p {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 17px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-title {
+      margin: 34px 0 18px;
+    }
+
+    .section-title h2 {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 38px;
+    }
+
+    .template-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .template-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 46px rgba(17, 24, 39, 0.12);
+    }
+
+    .mini-preview {
+      height: 260px;
+      margin: 16px;
+      background: white;
+      border: 1px solid #cfd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-preview::before {
+      content: "";
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2px solid #1d2f68;
+      position: absolute;
+      top: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .mini-preview span {
+      font-size: 13px;
+      color: #1d2f68;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 70px;
+      padding: 0 18px;
+    }
+
+    .mini-formal {
+      border: 5px double #111827;
+    }
+
+    .mini-modern {
+      border-left: 10px solid #233876;
+    }
+
+    .mini-border {
+      border: 3px solid #233876;
+      outline: 7px solid #e9eefb;
+      outline-offset: -16px;
+    }
+
+    .mini-clean {
+      border: none;
+      box-shadow: inset 0 -8px 0 #233876;
+    }
+
+    .template-card-body {
+      padding: 0 18px 18px;
+    }
+
+    .template-card h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .template-card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 10px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .edit-btn,
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      width: 100%;
+    }
+
+    .edit-btn:hover,
+    .primary-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary-btn {
+      background: #eef2ff;
+      color: var(--primary);
+      padding: 12px 16px;
+      border: 1px solid #c7d2fe;
+    }
+
+    .editor-wrap {
+      display: none;
+      grid-template-columns: 390px 1fr;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+
+    .editor-wrap.active {
+      display: grid;
+    }
+
+    .form-panel,
+    .preview-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .form-panel {
+      position: sticky;
+      top: 16px;
+    }
+
+    .form-panel h2,
+    .preview-panel h2 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .helper-text {
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #cfd5e1;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 15px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(35, 56, 118, 0.12);
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .cover-stage {
+      overflow: auto;
+      padding: 18px;
+      background: #e8ecf5;
+      border-radius: 16px;
+      border: 1px solid #d3d9e8;
+    }
+
+    .cover-page {
+      width: 794px;
+      min-height: 1123px;
+      background: white;
+      margin: 0 auto;
+      padding: 72px 78px;
+      color: #111827;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .cover-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: contain;
+      margin-bottom: 18px;
+      border: 2px solid #1d2f68;
+      padding: 8px;
+      background: white;
+    }
+
+    .logo-placeholder {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 2px solid #1d2f68;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: 800;
+      color: #1d2f68;
+      margin-bottom: 18px;
+    }
+
+    .university-name {
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.2;
+      max-width: 620px;
+    }
+
+    .department-name {
+      font-size: 18px;
+      margin-top: 8px;
+      color: #2d3748;
+    }
+
+    .cover-type {
+      margin-top: 70px;
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #1d2f68;
+    }
+
+    .report-title {
+      margin-top: 32px;
+      font-size: 30px;
+      font-weight: 800;
+      max-width: 620px;
+      line-height: 1.25;
+      text-transform: capitalize;
+    }
+
+    .course-box {
+      width: 100%;
+      margin-top: 42px;
+      border-top: 1px solid #d1d5db;
+      border-bottom: 1px solid #d1d5db;
+      padding: 18px 0;
+    }
+
+    .course-box p {
+      font-size: 20px;
+      margin: 7px 0;
+    }
+
+    .submission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      width: 100%;
+      margin-top: auto;
+      text-align: left;
+    }
+
+    .submission-card {
+      border-top: 2px solid #1d2f68;
+      padding-top: 12px;
+    }
+
+    .submission-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #1d2f68;
+      text-transform: uppercase;
+    }
+
+    .submission-card p {
+      font-size: 17px;
+      margin: 6px 0;
+      line-height: 1.35;
+    }
+
+    .submission-date {
+      margin-top: 36px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .template-formal {
+      border: 8px double #111827;
+    }
+
+    .template-formal .cover-type {
+      border: 2px solid #1d2f68;
+      padding: 10px 34px;
+    }
+
+    .template-modern {
+      border-left: 18px solid #1d2f68;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .template-modern::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 170px;
+      height: 170px;
+      background: #eef2ff;
+      border-bottom-left-radius: 100%;
+      z-index: 0;
+    }
+
+    .template-modern > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .template-border {
+      border: 3px solid #1d2f68;
+      outline: 12px solid #eef2ff;
+      outline-offset: -28px;
+    }
+
+    .template-clean {
+      border-bottom: 18px solid #1d2f68;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .template-clean .course-box {
+      background: #f6f8fc;
+      border: none;
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .template-clean .submission-card {
+      border-top: 0;
+      background: #f6f8fc;
+      padding: 16px;
+      border-radius: 14px;
+    }
+
+    .empty-hint {
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 16px 40px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1080px) {
+      .template-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .editor-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .form-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .site-header {
+        padding: 34px 16px;
+      }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+
+      #printArea,
+      #printArea * {
+        visibility: visible !important;
+      }
+
+      body {
+        background: white !important;
+      }
+
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: white !important;
+        border: none !important;
+        overflow: visible !important;
+      }
+
+      .cover-page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-after: avoid;
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <h1>University Cover Page Maker</h1>
+    <p>Choose a free template, edit your information, preview the cover page, and print or save it as PDF.</p>
+  </header>
+
+  <main class="container">
+    <section class="section-title" id="templates">
+      <h2>Free Cover Page Templates</h2>
+      <p>Select one template to start editing. University name and logo are fixed for your institution.</p>
+    </section>
+
+    <section class="template-grid">
+      <article class="template-card">
+        <div class="mini-preview mini-formal"><span>Formal University Template</span></div>
+        <div class="template-card-body">
+          <h3>Formal Template</h3>
+          <p>Classic academic style with double border.</p>
+          <button class="edit-btn" data-template="template-formal">Edit Template</button>
+        </div>
+      </article>
+
+      <article class="template-card">
+        <div class="mini-preview mini-modern"><span>Modern Academic Template</span></div>
+        <div class="template-card-body">
+          <h3>Modern Template</h3>
+          <p>Clean modern style with strong left accent.</p>
+          <button class="edit-btn" data-template="template-modern">Edit Template</button>
+        </div>
+      </article>
+
+      <article class="template-card">
+        <div class="mini-preview mini-border"><span>Border Style Template</span></div>
+        <div class="template-card-body">
+          <h3>Border Template</h3>
+          <p>Formal border-based design for reports.</p>
+          <button class="edit-btn" data-template="template-border">Edit Template</button>
+        </div>
+      </article>
+
+      <article class="template-card">
+        <div class="mini-preview mini-clean"><span>Simple Clean Template</span></div>
+        <div class="template-card-body">
+          <h3>Clean Template</h3>
+          <p>Simple, readable, and minimal cover page.</p>
+          <button class="edit-btn" data-template="template-clean">Edit Template</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="editor-wrap" id="editor">
+      <aside class="form-panel">
+        <h2>Edit Cover Page</h2>
+        <p class="helper-text">Fill the fields below. The preview will update automatically.</p>
+
+        <div class="form-group">
+          <label for="reportType">Report Type</label>
+          <select id="reportType">
+            <option>Assignment</option>
+            <option>Project Report</option>
+            <option>Lab Report</option>
+            <option>Presentation Report</option>
+            <option>Thesis Proposal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department</label>
+          <input id="department" type="text" placeholder="Department of Computer Science and Engineering" />
+        </div>
+
+        <div class="form-group">
+          <label for="reportTitle">Title</label>
+          <textarea id="reportTitle" placeholder="Enter assignment/project/lab report title"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="courseTitle">Course Title</label>
+          <input id="courseTitle" type="text" placeholder="Database Management System" />
+        </div>
+
+        <div class="form-group">
+          <label for="courseCode">Course Code</label>
+          <input id="courseCode" type="text" placeholder="CSE 3101" />
+        </div>
+
+        <div class="form-group">
+          <label for="submittedTo">Submitted To</label>
+          <input id="submittedTo" type="text" placeholder="Teacher name" />
+        </div>
+
+        <div class="form-group">
+          <label for="teacherDesignation">Teacher Designation</label>
+          <input id="teacherDesignation" type="text" placeholder="Lecturer / Assistant Professor" />
+        </div>
+
+        <div class="form-group">
+          <label for="studentName">Submitted By</label>
+          <input id="studentName" type="text" placeholder="Student name" />
+        </div>
+
+        <div class="form-group">
+          <label for="studentId">Student ID</label>
+          <input id="studentId" type="text" placeholder="Student ID" />
+        </div>
+
+        <div class="form-group">
+          <label for="batchSection">Batch / Section</label>
+          <input id="batchSection" type="text" placeholder="Batch 20, Section A" />
+        </div>
+
+        <div class="form-group">
+          <label for="submissionDate">Submission Date</label>
+          <input id="submissionDate" type="date" />
+        </div>
+
+        <div class="button-row">
+          <button class="primary-btn" id="printBtn">Print / Save PDF</button>
+          <button class="secondary-btn" id="backBtn">Templates</button>
+        </div>
+      </aside>
+
+      <section class="preview-panel">
+        <div class="preview-actions">
+          <button class="secondary-btn" id="clearBtn">Clear Form</button>
+          <button class="primary-btn" id="printBtnTop">Print / Save PDF</button>
+        </div>
+
+        <div class="cover-stage" id="printArea">
+          <div class="cover-page template-formal" id="coverPage">
+            <div class="logo-placeholder">U</div>
+            <h1 class="university-name" id="previewUniversity">Your University Name</h1>
+            <p class="department-name" id="previewDepartment">Department Name</p>
+
+            <div class="cover-type" id="previewReportType">Assignment</div>
+
+            <h2 class="report-title" id="previewTitle">
+              <span class="empty-hint">Your report title will appear here</span>
+            </h2>
+
+            <div class="course-box">
+              <p><strong>Course Title:</strong> <span id="previewCourseTitle">Course Title</span></p>
+              <p><strong>Course Code:</strong> <span id="previewCourseCode">Course Code</span></p>
+            </div>
+
+            <div class="submission-grid">
+              <div class="submission-card">
+                <h3>Submitted To</h3>
+                <p id="previewSubmittedTo">Teacher Name</p>
+                <p id="previewTeacherDesignation">Teacher Designation</p>
+              </div>
+
+              <div class="submission-card">
+                <h3>Submitted By</h3>
+                <p id="previewStudentName">Student Name</p>
+                <p>ID: <span id="previewStudentId">Student ID</span></p>
+                <p id="previewBatchSection">Batch / Section</p>
+              </div>
+            </div>
+
+            <p class="submission-date">Submission Date: <span id="previewDate">Date</span></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer-note">
+    First version: no login, no database, no saved history. Data stays only in the browser while editing.
+  </footer>
+
+  <script>
+    const UNIVERSITY_NAME = "Your University Name";
+    const LOGO_IMAGE_PATH = "";
+
+    const editor = document.getElementById("editor");
+    const coverPage = document.getElementById("coverPage");
+    const editButtons = document.querySelectorAll(".edit-btn");
+
+    const fields = {
+      reportType: document.getElementById("reportType"),
+      department: document.getElementById("department"),
+      reportTitle: document.getElementById("reportTitle"),
+      courseTitle: document.getElementById("courseTitle"),
+      courseCode: document.getElementById("courseCode"),
+      submittedTo: document.getElementById("submittedTo"),
+      teacherDesignation: document.getElementById("teacherDesignation"),
+      studentName: document.getElementById("studentName"),
+      studentId: document.getElementById("studentId"),
+      batchSection: document.getElementById("batchSection"),
+      submissionDate: document.getElementById("submissionDate")
+    };
+
+    const preview = {
+      university: document.getElementById("previewUniversity"),
+      department: document.getElementById("previewDepartment"),
+      reportType: document.getElementById("previewReportType"),
+      title: document.getElementById("previewTitle"),
+      courseTitle: document.getElementById("previewCourseTitle"),
+      courseCode: document.getElementById("previewCourseCode"),
+      submittedTo: document.getElementById("previewSubmittedTo"),
+      teacherDesignation: document.getElementById("previewTeacherDesignation"),
+      studentName: document.getElementById("previewStudentName"),
+      studentId: document.getElementById("previewStudentId"),
+      batchSection: document.getElementById("previewBatchSection"),
+      date: document.getElementById("previewDate")
+    };
+
+    function formatDate(dateValue) {
+      if (!dateValue) return "Date";
+      const date = new Date(dateValue + "T00:00:00");
+      return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function setLogo() {
+      const logoArea = document.querySelector(".logo-placeholder, .cover-logo");
+      if (!LOGO_IMAGE_PATH) return;
+
+      const img = document.createElement("img");
+      img.src = LOGO_IMAGE_PATH;
+      img.alt = "University Logo";
+      img.className = "cover-logo";
+      logoArea.replaceWith(img);
+    }
+
+    function textOrDefault(value, fallback) {
+      return value.trim() || fallback;
+    }
+
+    function updatePreview() {
+      preview.university.textContent = UNIVERSITY_NAME;
+      preview.department.textContent = textOrDefault(fields.department.value, "Department Name");
+      preview.reportType.textContent = fields.reportType.value;
+
+      const title = fields.reportTitle.value.trim();
+      preview.title.innerHTML = title ? title : '<span class="empty-hint">Your report title will appear here</span>';
+
+      preview.courseTitle.textContent = textOrDefault(fields.courseTitle.value, "Course Title");
+      preview.courseCode.textContent = textOrDefault(fields.courseCode.value, "Course Code");
+      preview.submittedTo.textContent = textOrDefault(fields.submittedTo.value, "Teacher Name");
+      preview.teacherDesignation.textContent = textOrDefault(fields.teacherDesignation.value, "Teacher Designation");
+      preview.studentName.textContent = textOrDefault(fields.studentName.value, "Student Name");
+      preview.studentId.textContent = textOrDefault(fields.studentId.value, "Student ID");
+      preview.batchSection.textContent = textOrDefault(fields.batchSection.value, "Batch / Section");
+      preview.date.textContent = formatDate(fields.submissionDate.value);
+    }
+
+    function chooseTemplate(templateClass) {
+      coverPage.className = "cover-page " + templateClass;
+      editor.classList.add("active");
+      editor.scrollIntoView({ behavior: "smooth", block: "start" });
+      updatePreview();
+    }
+
+    function clearForm() {
+      Object.values(fields).forEach(field => {
+        if (field.tagName === "SELECT") {
+          field.selectedIndex = 0;
+        } else {
+          field.value = "";
+        }
+      });
+      updatePreview();
+    }
+
+    Object.values(fields).forEach(field => {
+      field.addEventListener("input", updatePreview);
+      field.addEventListener("change", updatePreview);
+    });
+
+    editButtons.forEach(button => {
+      button.addEventListener("click", () => chooseTemplate(button.dataset.template));
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+    document.getElementById("printBtnTop").addEventListener("click", () => window.print());
+    document.getElementById("clearBtn").addEventListener("click", clearForm);
+    document.getElementById("backBtn").addEventListener("click", () => {
+      document.getElementById("templates").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    setLogo();
+    updatePreview();
+  </script>
+</body>
+</html>
