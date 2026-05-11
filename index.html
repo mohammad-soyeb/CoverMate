@@ -270,7 +270,7 @@
     }
 
     .container {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1320px, calc(100% - 32px));
       margin: 0 auto;
     }
 
@@ -519,7 +519,7 @@
 
     .editor-wrap {
       display: none;
-      grid-template-columns: 390px 1fr;
+      grid-template-columns: minmax(360px, 460px) minmax(0, 1fr);
       gap: 24px;
       align-items: start;
       margin-bottom: 60px;
@@ -531,11 +531,12 @@
 
     .form-panel,
     .preview-panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(217, 222, 232, 0.95);
+      border-radius: 22px;
       box-shadow: var(--shadow);
-      padding: 22px;
+      padding: 24px;
+      min-width: 0;
     }
 
     .form-panel {
@@ -555,15 +556,48 @@
       font-size: 14px;
     }
 
+    .form-section {
+      background: #f8faff;
+      border: 1px solid #e1e7f2;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .form-section-title {
+      grid-column: 1 / -1;
+      font-size: 15px;
+      color: #172554;
+      margin-bottom: 2px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e7f2;
+      letter-spacing: 0.2px;
+    }
+
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 0;
+    }
+
+    .form-group:has(textarea),
+    .form-group:has(input[placeholder="Department of Computer Science and Engineering"]),
+    .form-group:has(input[placeholder="Teacher name"]),
+    .form-group:has(input[placeholder="Lecturer / Assistant Professor"]) {
+      grid-column: 1 / -1;
+    }
+
+    .form-section .form-group:last-child {
+      margin-bottom: 0;
     }
 
     label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       margin-bottom: 6px;
+      color: #344054;
     }
 
     input,
@@ -571,9 +605,9 @@
     textarea {
       width: 100%;
       border: 1px solid #cfd5e1;
-      border-radius: 10px;
-      padding: 11px 12px;
-      font-size: 15px;
+      border-radius: 11px;
+      padding: 10px 12px;
+      font-size: 14px;
       outline: none;
       background: white;
     }
@@ -597,6 +631,10 @@
       margin-top: 18px;
     }
 
+    .button-row.single-button {
+      grid-template-columns: 1fr;
+    }
+
     .preview-actions {
       display: flex;
       gap: 10px;
@@ -605,12 +643,25 @@
       flex-wrap: wrap;
     }
 
+    .preview-download {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    .preview-download .primary-btn {
+      width: auto;
+      min-width: 210px;
+    }
+
     .cover-stage {
       overflow: auto;
       padding: 18px;
       background: #e8ecf5;
       border-radius: 16px;
       border: 1px solid #d3d9e8;
+      display: flex;
+      justify-content: center;
     }
 
     .cover-page {
@@ -756,6 +807,11 @@
       line-height: 1.35;
     }
 
+    .submitted-university {
+      white-space: nowrap;
+      font-size: 16px;
+    }
+
     .submission-date {
       margin-top: 28px;
       font-size: 18px;
@@ -776,8 +832,8 @@
     }
 
     .template-modern {
-      border-left: 18px solid #1d2f68;
-      font-family: Georgia, "Times New Roman", serif;
+      border-left: 14px solid #1d2f68;
+      font-family: "Times New Roman", Times, serif;
     }
 
     .template-modern::after {
@@ -797,11 +853,41 @@
       z-index: 1;
     }
 
+    .template-modern .submission-grid,
+    .template-clean .submission-grid {
+      gap: 46px;
+    }
+
     .template-modern .submission-card {
       border-top: 0;
       background: #f6f8fc;
-      padding: 16px;
-      border-radius: 14px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .template-modern .submission-card:first-child,
+    .template-clean .submission-card:first-child {
+      width: calc(100% + 18px);
+      margin-left: -18px;
+    }
+
+    .template-modern .submission-card:last-child,
+    .template-clean .submission-card:last-child {
+      width: calc(100% + 18px);
+      margin-left: 0;
+    }
+
+    .template-modern .submission-card h3,
+    .template-clean .submission-card h3 {
+      font-size: 18px;
+    }
+
+    .template-modern .submission-card p,
+    .template-clean .submission-card p {
+      font-size: 16px;
+      line-height: 1.3;
     }
 
     .template-border {
@@ -811,8 +897,8 @@
     }
 
     .template-clean {
-      border-bottom: 18px solid #1d2f68;
-      font-family: Arial, Helvetica, sans-serif;
+      border-bottom: 14px solid #1d2f68;
+      font-family: "Times New Roman", Times, serif;
     }
 
     .template-clean .course-box {
@@ -825,8 +911,10 @@
     .template-clean .submission-card {
       border-top: 0;
       background: #f6f8fc;
-      padding: 16px;
-      border-radius: 14px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      width: 100%;
+      margin-left: 0;
     }
 
     .empty-hint {
@@ -865,6 +953,10 @@
       .form-panel {
         position: static;
       }
+
+      .preview-panel {
+        overflow: hidden;
+      }
     }
 
     @media (max-width: 640px) {
@@ -872,11 +964,27 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
-        padding-bottom: 34px;
+        padding-bottom: 30px;
+      }
+
+      .nav-pill {
+        width: 100%;
+        border-radius: 14px;
+        line-height: 1.4;
+      }
+
+      .site-header {
+        padding: 28px 16px 46px;
       }
 
       .site-header h1 {
+        font-size: 42px;
+        line-height: 1.02;
         letter-spacing: -1.4px;
+      }
+
+      .site-header p {
+        font-size: 16px;
       }
 
       .hero-points {
@@ -885,18 +993,103 @@
 
       .section-title {
         display: block;
+        margin: 34px 0 18px;
+      }
+
+      .section-title h2 {
+        font-size: 26px;
       }
 
       .template-grid {
         grid-template-columns: 1fr;
       }
 
+      .mini-preview {
+        height: 235px;
+      }
+
+      .template-snapshot {
+        transform: scale(0.88);
+      }
+
+      .editor-wrap {
+        gap: 16px;
+      }
+
+      .form-panel,
+      .preview-panel {
+        padding: 16px;
+        border-radius: 18px;
+      }
+
+      .form-section {
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+
+      .form-group:has(textarea),
+      .form-group:has(input[placeholder="Department of Computer Science and Engineering"]),
+      .form-group:has(input[placeholder="Teacher name"]),
+      .form-group:has(input[placeholder="Lecturer / Assistant Professor"]) {
+        grid-column: auto;
+      }
+
       .button-row {
         grid-template-columns: 1fr;
       }
 
-      .site-header {
-        padding: 34px 16px;
+      .preview-actions,
+      .preview-download {
+        justify-content: stretch;
+      }
+
+      .preview-actions .secondary-btn,
+      .preview-download .primary-btn {
+        width: 100%;
+      }
+
+      .cover-stage {
+        justify-content: flex-start;
+        padding: 12px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .footer-note {
+        padding: 22px 16px 32px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container,
+      .top-nav,
+      .hero {
+        width: min(100% - 20px, 1320px);
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+      }
+
+      .site-header h1 {
+        font-size: 36px;
+      }
+
+      .hero-point {
+        padding: 12px;
+      }
+
+      .template-card {
+        border-radius: 18px;
+      }
+
+      .mini-preview {
+        margin: 12px;
       }
     }
 
@@ -953,13 +1146,8 @@
 
     <section class="hero">
       <div class="hero-copy">
-        <div class="eyebrow">Free academic cover page maker</div>
         <h1>Create polished cover pages in seconds.</h1>
         <p>Select a template, enter your course details, preview instantly, and print or save a professional A4 cover page as PDF.</p>
-
-        <div class="hero-actions">
-          <a href="#templates" class="hero-btn primary">Start with templates</a>
-        </div>
 
         <div class="hero-points">
           <div class="hero-point"><strong>4</strong><span>Free templates</span></div>
@@ -1013,9 +1201,9 @@
           </div>
         </div>
         <div class="template-card-body">
-          <h3>Formal Template</h3>
+          <h3>Template 1</h3>
           <p>Classic academic style with double border.</p>
-          <button class="edit-btn" data-template="template-formal">Edit Template</button>
+          <button class="edit-btn" data-template="template-formal">Use Template</button>
         </div>
       </article>
 
@@ -1037,9 +1225,9 @@
           </div>
         </div>
         <div class="template-card-body">
-          <h3>Modern Template</h3>
+          <h3>Template 2</h3>
           <p>Clean modern style with strong left accent.</p>
-          <button class="edit-btn" data-template="template-modern">Edit Template</button>
+          <button class="edit-btn" data-template="template-modern">Use Template</button>
         </div>
       </article>
 
@@ -1061,9 +1249,9 @@
           </div>
         </div>
         <div class="template-card-body">
-          <h3>Border Template</h3>
+          <h3>Template 3</h3>
           <p>Formal border-based design for reports.</p>
-          <button class="edit-btn" data-template="template-border">Edit Template</button>
+          <button class="edit-btn" data-template="template-border">Use Template</button>
         </div>
       </article>
 
@@ -1085,9 +1273,9 @@
           </div>
         </div>
         <div class="template-card-body">
-          <h3>Clean Template</h3>
+          <h3>Template 4</h3>
           <p>Simple, readable, and minimal cover page.</p>
-          <button class="edit-btn" data-template="template-clean">Edit Template</button>
+          <button class="edit-btn" data-template="template-clean">Use Template</button>
         </div>
       </article>
     </section>
@@ -1097,92 +1285,98 @@
         <h2>Edit Cover Page</h2>
         <p class="helper-text">Fill the fields below. The preview will update automatically.</p>
 
-        <div class="form-group">
-          <label for="reportType">Report Type</label>
-          <select id="reportType">
-            <option>Assignment</option>
-            <option>Project Report</option>
-            <option>Lab Report</option>
-            <option>Presentation Report</option>
-            <option>Thesis Proposal</option>
-          </select>
+        <div class="form-section">
+          <h3 class="form-section-title">Cover Page Details</h3>
+
+          <div class="form-group">
+            <label for="reportType">Report Type</label>
+            <select id="reportType">
+              <option>Assignment</option>
+              <option>Project Report</option>
+              <option>Lab Report</option>
+              <option>Presentation Report</option>
+              <option>Thesis Proposal</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input id="department" type="text" placeholder="Department of Computer Science and Engineering" />
+          </div>
+
+          <div class="form-group">
+            <label for="reportTitle">Title</label>
+            <textarea id="reportTitle" placeholder="Enter assignment/project/lab report title"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="courseTitle">Course Title</label>
+            <input id="courseTitle" type="text" placeholder="Database Management System" />
+          </div>
+
+          <div class="form-group">
+            <label for="courseCode">Course Code</label>
+            <input id="courseCode" type="text" placeholder="CSE 3101" />
+          </div>
+
+          <div class="form-group">
+            <label for="batchSection">Section</label>
+            <input id="batchSection" type="number" placeholder="1" min="1" step="1" />
+          </div>
+
+          <div class="form-group">
+            <label for="reportNo">Report No</label>
+            <input id="reportNo" type="text" placeholder="01" />
+          </div>
+
+          <div class="form-group">
+            <label for="performanceDate">Date of Performance</label>
+            <input id="performanceDate" type="date" />
+          </div>
+
+          <div class="form-group">
+            <label for="submissionDate">Date of Submission</label>
+            <input id="submissionDate" type="date" />
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="department">Department</label>
-          <input id="department" type="text" placeholder="Department of Computer Science and Engineering" />
+        <div class="form-section">
+          <h3 class="form-section-title">Student Information</h3>
+
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input id="studentName" type="text" placeholder="Student name" />
+          </div>
+
+          <div class="form-group">
+            <label for="studentId">Student ID</label>
+            <input id="studentId" type="text" placeholder="Student ID" />
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="reportTitle">Title</label>
-          <textarea id="reportTitle" placeholder="Enter assignment/project/lab report title"></textarea>
-        </div>
+        <div class="form-section">
+          <h3 class="form-section-title">Instructor Information</h3>
 
-        <div class="form-group">
-          <label for="courseTitle">Course Title</label>
-          <input id="courseTitle" type="text" placeholder="Database Management System" />
-        </div>
+          <div class="form-group">
+            <label for="submittedTo">Teacher Name</label>
+            <input id="submittedTo" type="text" placeholder="Teacher name" />
+          </div>
 
-        <div class="form-group">
-          <label for="courseCode">Course Code</label>
-          <input id="courseCode" type="text" placeholder="CSE 3101" />
-        </div>
+          <div class="form-group">
+            <label for="teacherDesignation">Teacher Designation</label>
+            <input id="teacherDesignation" type="text" placeholder="Lecturer / Assistant Professor" />
+          </div>
 
-        <div class="form-group">
-          <label for="submittedTo">Submitted To</label>
-          <input id="submittedTo" type="text" placeholder="Teacher name" />
-        </div>
-
-        <div class="form-group">
-          <label for="teacherDesignation">Teacher Designation</label>
-          <input id="teacherDesignation" type="text" placeholder="Lecturer / Assistant Professor" />
-        </div>
-
-        <div class="form-group">
-          <label for="teacherDepartment">Teacher Department Name</label>
-          <input id="teacherDepartment" type="text" placeholder="Department of Computer Science and Engineering" />
-        </div>
-
-        <div class="form-group">
-          <label for="studentName">Submitted By</label>
-          <input id="studentName" type="text" placeholder="Student name" />
-        </div>
-
-        <div class="form-group">
-          <label for="studentId">Student ID</label>
-          <input id="studentId" type="text" placeholder="Student ID" />
-        </div>
-
-        <div class="form-group">
-          <label for="batchSection">Section</label>
-          <input id="batchSection" type="text" placeholder="Section A" />
-        </div>
-
-        <div class="form-group">
-          <label for="reportNo">Report No</label>
-          <input id="reportNo" type="text" placeholder="01" />
-        </div>
-
-        <div class="form-group">
-          <label for="performanceDate">Date of Performance</label>
-          <input id="performanceDate" type="date" />
-        </div>
-
-        <div class="form-group">
-          <label for="submissionDate">Date of Submission</label>
-          <input id="submissionDate" type="date" />
-        </div>
-
-        <div class="button-row">
-          <button class="primary-btn" id="printBtn">Print / Save PDF</button>
-          <button class="secondary-btn" id="backBtn">Templates</button>
+          <div class="form-group">
+            <label for="teacherDepartment">Teacher Department Name</label>
+            <input id="teacherDepartment" type="text" placeholder="Department of Computer Science and Engineering" />
+          </div>
         </div>
       </aside>
 
       <section class="preview-panel">
         <div class="preview-actions">
-          <button class="secondary-btn" id="clearBtn">Clear Form</button>
-          <button class="primary-btn" id="printBtnTop">Print / Save PDF</button>
+          <button class="secondary-btn" id="clearBtn">Reset Form</button>
         </div>
 
         <div class="cover-stage" id="printArea">
@@ -1216,7 +1410,7 @@
                 <p id="previewSubmittedTo">Teacher Name</p>
                 <p id="previewTeacherDesignation">Teacher Designation</p>
                 <p id="previewTeacherDepartment">Teacher Department Name</p>
-                <p>EAST WEST UNIVERSITY</p>
+                <p class="submitted-university">EAST WEST UNIVERSITY</p>
               </div>
             </div>
 
@@ -1224,12 +1418,16 @@
             <p class="submission-date date-submission">Date of Submission: <span id="previewDate">Date</span></p>
           </div>
         </div>
+
+        <div class="preview-download">
+          <button class="primary-btn" id="downloadBtn">Download Cover Page</button>
+        </div>
       </section>
     </section>
   </main>
 
   <footer class="footer-note">
-    First version: no login, no database, no saved history. Data stays only in the browser while editing.
+    © 2026 CoverMate. Built for East West University students.
   </footer>
 
   <script>
@@ -1347,12 +1545,8 @@
       button.addEventListener("click", () => chooseTemplate(button.dataset.template));
     });
 
-    document.getElementById("printBtn").addEventListener("click", () => window.print());
-    document.getElementById("printBtnTop").addEventListener("click", () => window.print());
+    document.getElementById("downloadBtn").addEventListener("click", () => window.print());
     document.getElementById("clearBtn").addEventListener("click", clearForm);
-    document.getElementById("backBtn").addEventListener("click", () => {
-      document.getElementById("templates").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
 
     setLogo();
     updatePreview();
