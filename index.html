@@ -24,29 +24,249 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(35, 56, 118, 0.10), transparent 34%),
+        linear-gradient(180deg, #f8faff 0%, #f3f6fb 45%, #eef2f8 100%);
       color: var(--text);
       line-height: 1.5;
     }
 
     .site-header {
-      background: linear-gradient(135deg, #1d2f68, #2b4aa0);
+      position: relative;
+      overflow: hidden;
       color: white;
-      padding: 44px 20px;
-      text-align: center;
+      padding: 22px 20px 70px;
+      background:
+        radial-gradient(circle at 16% 10%, rgba(255,255,255,0.18), transparent 28%),
+        radial-gradient(circle at 86% 22%, rgba(147,197,253,0.22), transparent 26%),
+        linear-gradient(135deg, #111f4f 0%, #1f3b86 48%, #0f172a 100%);
+    }
+
+    .site-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 86%);
+      pointer-events: none;
+    }
+
+    .top-nav,
+    .hero {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 46px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+    }
+
+    .nav-pill {
+      color: rgba(255,255,255,0.86);
+      font-size: 14px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.90);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
     }
 
     .site-header h1 {
-      font-size: clamp(28px, 4vw, 44px);
-      margin-bottom: 10px;
-      letter-spacing: -0.8px;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.96;
+      letter-spacing: -2.2px;
+      max-width: 760px;
+      margin-bottom: 22px;
     }
 
     .site-header p {
-      color: rgba(255, 255, 255, 0.86);
-      font-size: 17px;
-      max-width: 760px;
-      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 18px;
+      max-width: 650px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .hero-btn.primary {
+      background: #ffffff;
+      color: #172554;
+      box-shadow: 0 18px 34px rgba(0,0,0,0.18);
+    }
+
+    .hero-btn.secondary {
+      color: white;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 30px;
+      max-width: 650px;
+    }
+
+    .hero-point {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .hero-point strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    .hero-point span {
+      color: rgba(255,255,255,0.76);
+      font-size: 13px;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-document {
+      width: min(390px, 100%);
+      min-height: 500px;
+      padding: 28px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.96);
+      color: #111827;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.30);
+      border: 1px solid rgba(255,255,255,0.55);
+      transform: rotate(1.5deg);
+    }
+
+    .hero-doc-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid #d9dee8;
+      padding-bottom: 16px;
+      margin-bottom: 30px;
+    }
+
+    .hero-logo-dot {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 2px solid #233876;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #233876;
+    }
+
+    .hero-doc-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #172554;
+    }
+
+    .hero-doc-line {
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin: 12px 0;
+    }
+
+    .hero-doc-line.short { width: 58%; }
+    .hero-doc-line.mid { width: 76%; }
+
+    .hero-doc-badge {
+      display: inline-block;
+      margin: 24px 0;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #233876;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .hero-doc-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 52px;
+    }
+
+    .hero-doc-box {
+      height: 86px;
+      border-radius: 16px;
+      background: #f6f8fc;
+      border: 1px solid #e4e8f2;
     }
 
     .container {
@@ -55,16 +275,23 @@
     }
 
     .section-title {
-      margin: 34px 0 18px;
+      margin: 46px 0 22px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
     }
 
     .section-title h2 {
-      font-size: 26px;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.7px;
       margin-bottom: 6px;
     }
 
     .section-title p {
       color: var(--muted);
+      font-size: 16px;
     }
 
     .template-grid {
@@ -75,24 +302,27 @@
     }
 
     .template-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(217, 222, 232, 0.9);
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 18px 44px rgba(17, 24, 39, 0.09);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      backdrop-filter: blur(10px);
     }
 
     .template-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 46px rgba(17, 24, 39, 0.12);
+      transform: translateY(-5px);
+      border-color: rgba(35, 56, 118, 0.28);
+      box-shadow: 0 24px 60px rgba(17, 24, 39, 0.14);
     }
 
     .mini-preview {
-      height: 260px;
+      height: 270px;
       margin: 16px;
-      background: white;
-      border: 1px solid #cfd5e1;
+      background: linear-gradient(180deg, #f9fbff, #eef3fb);
+      border: 1px solid #dbe3f0;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -102,46 +332,164 @@
 
     .mini-preview::before {
       content: "";
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 2px solid #1d2f68;
       position: absolute;
-      top: 34px;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 150px;
+      height: 150px;
+      right: -70px;
+      top: -70px;
+      border-radius: 50%;
+      background: rgba(35, 56, 118, 0.08);
     }
 
-    .mini-preview span {
-      font-size: 13px;
-      color: #1d2f68;
-      font-weight: 700;
+    .sample-cover {
+      width: 164px;
+      height: 228px;
+      background: #ffffff;
+      padding: 16px 14px;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      margin-top: 70px;
-      padding: 0 18px;
+      box-shadow: 0 16px 30px rgba(17, 24, 39, 0.12);
+      position: relative;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .mini-formal {
-      border: 5px double #111827;
+    .sample-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 12px;
     }
 
-    .mini-modern {
-      border-left: 10px solid #233876;
+    .sample-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid #233876;
+      display: grid;
+      place-items: center;
+      font-size: 7px;
+      font-weight: 900;
+      color: #233876;
+      flex-shrink: 0;
     }
 
-    .mini-border {
-      border: 3px solid #233876;
-      outline: 7px solid #e9eefb;
-      outline-offset: -16px;
+    .sample-head strong {
+      font-size: 9px;
+      line-height: 1.1;
+      text-align: left;
+      color: #172554;
     }
 
-    .mini-clean {
-      border: none;
-      box-shadow: inset 0 -8px 0 #233876;
+    .sample-dept {
+      width: 70%;
+      height: 7px;
+      border-radius: 999px;
+      background: #dbe3f0;
+      font-size: 0;
+      margin-bottom: 14px;
+    }
+
+    .sample-info {
+      width: 100%;
+      padding: 9px 0;
+      margin-bottom: 18px;
+      border-top: 1px solid #dbe3f0;
+      border-bottom: 1px solid #dbe3f0;
+    }
+
+    .sample-info span {
+      display: block;
+      width: 82%;
+      height: 6px;
+      margin: 5px auto;
+      background: #e6ebf4;
+      border-radius: 999px;
+      font-size: 0;
+    }
+
+    .sample-info span:nth-child(2) { width: 68%; }
+    .sample-info span:nth-child(3) { width: 54%; }
+    .sample-info span:nth-child(4) { width: 46%; }
+
+    .sample-cover h4 {
+      color: #233876;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 12px;
+    }
+
+    .sample-cover h5 {
+      width: 78%;
+      height: 9px;
+      border-radius: 999px;
+      background: #cfd8ea;
+      font-size: 0;
+      margin-bottom: auto;
+    }
+
+    .sample-submit {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+      margin-top: 22px;
+    }
+
+    .sample-submit div {
+      height: 34px;
+      border-top: 2px solid #233876;
+    }
+
+    .sample-submit.boxed div {
+      border-top: 0;
+      background: #f3f6fb;
+      border-radius: 8px;
+    }
+
+    .sample-formal {
+      border-radius: 4px;
+    }
+
+    .sample-modern {
+      border-left: 7px solid #233876;
+      border-radius: 4px;
+    }
+
+    .sample-modern::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 48px;
+      height: 48px;
+      background: #eef2ff;
+      border-bottom-left-radius: 100%;
+    }
+
+    .sample-modern > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sample-border {
+      border: 2px solid #233876;
+      border-radius: 4px;
+    }
+
+    .sample-clean {
+      border-bottom: 7px solid #233876;
+      border-radius: 4px;
     }
 
     .template-card-body {
-      padding: 0 18px 18px;
+      padding: 0 20px 20px;
     }
 
     .template-card h3 {
@@ -169,10 +517,11 @@
 
     .edit-btn,
     .primary-btn {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), #3156b7);
       color: white;
       padding: 12px 16px;
       width: 100%;
+      box-shadow: 0 10px 20px rgba(35, 56, 118, 0.18);
     }
 
     .edit-btn:hover,
@@ -323,18 +672,49 @@
       margin-bottom: 18px;
     }
 
+    .university-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .university-header .cover-logo,
+    .university-header .logo-placeholder {
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
     .university-name {
       font-size: 28px;
       font-weight: 800;
       text-transform: uppercase;
       line-height: 1.2;
-      max-width: 620px;
+      max-width: 520px;
+      text-align: left;
     }
 
     .department-name {
       font-size: 18px;
-      margin-top: 8px;
+      margin-top: 0;
+      transform: translateY(-4px);
       color: #2d3748;
+    }
+
+    .top-info-box {
+      width: 82%;
+      margin-top: 22px;
+      padding: 14px 18px;
+      border-top: 1px solid #d1d5db;
+      border-bottom: 1px solid #d1d5db;
+      text-align: left;
+    }
+
+    .top-info-box p {
+      font-size: 18px;
+      margin: 6px 0;
     }
 
     .cover-type {
@@ -396,18 +776,22 @@
     }
 
     .submission-date {
-      margin-top: 36px;
+      margin-top: 28px;
       font-size: 18px;
       font-weight: 700;
     }
 
+    .date-submission {
+      margin-top: 8px;
+    }
+
     .template-formal {
-      border: 8px double #111827;
+      border: none;
     }
 
     .template-formal .cover-type {
-      border: 2px solid #1d2f68;
-      padding: 10px 34px;
+      border: none;
+      padding: 0;
     }
 
     .template-modern {
@@ -430,6 +814,13 @@
     .template-modern > * {
       position: relative;
       z-index: 1;
+    }
+
+    .template-modern .submission-card {
+      border-top: 0;
+      background: #f6f8fc;
+      padding: 16px;
+      border-radius: 14px;
     }
 
     .template-border {
@@ -470,6 +861,18 @@
     }
 
     @media (max-width: 1080px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .hero-points {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
       .template-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -484,6 +887,25 @@
     }
 
     @media (max-width: 640px) {
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding-bottom: 34px;
+      }
+
+      .site-header h1 {
+        letter-spacing: -1.4px;
+      }
+
+      .hero-points {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
       .template-grid {
         grid-template-columns: 1fr;
       }
@@ -540,28 +962,76 @@
 </head>
 <body>
   <header class="site-header">
-    <h1>University Cover Page Maker</h1>
-    <p>Choose a free template, edit your information, preview the cover page, and print or save it as PDF.</p>
+    <nav class="top-nav">
+      <div class="brand">
+        <div class="brand-mark">CM</div>
+        <span>CoverMate</span>
+      </div>
+      <div class="nav-pill">East West University Cover Page Generator</div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Free academic cover page maker</div>
+        <h1>Create polished cover pages in seconds.</h1>
+        <p>Select a template, enter your course details, preview instantly, and print or save a professional A4 cover page as PDF.</p>
+
+        <div class="hero-actions">
+          <a href="#templates" class="hero-btn primary">Start with templates</a>
+        </div>
+
+        <div class="hero-points">
+          <div class="hero-point"><strong>4</strong><span>Free templates</span></div>
+          <div class="hero-point"><strong>A4</strong><span>Print-ready format</span></div>
+          <div class="hero-point"><strong>PDF</strong><span>Save from browser</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-document">
+          <div class="hero-doc-header">
+            <div class="hero-logo-dot">EWU</div>
+            <div class="hero-doc-title">EAST WEST UNIVERSITY</div>
+          </div>
+          <div class="hero-doc-line mid"></div>
+          <div class="hero-doc-line short"></div>
+          <div class="hero-doc-badge">Assignment</div>
+          <div class="hero-doc-line"></div>
+          <div class="hero-doc-line mid"></div>
+          <div class="hero-doc-boxes">
+            <div class="hero-doc-box"></div>
+            <div class="hero-doc-box"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </header>
 
   <main class="container">
     <section class="section-title" id="templates">
       <h2>Free Cover Page Templates</h2>
-      <p>Select one template to start editing. University name and logo are fixed for your institution.</p>
+      <p>Select one template to start editing.</p>
     </section>
 
     <section class="template-grid">
       <article class="template-card">
-        <div class="mini-preview mini-formal"><span>Formal University Template</span></div>
-        <div class="template-card-body">
-          <h3>Formal Template</h3>
+        
           <p>Classic academic style with double border.</p>
           <button class="edit-btn" data-template="template-formal">Edit Template</button>
         </div>
       </article>
 
       <article class="template-card">
-        <div class="mini-preview mini-modern"><span>Modern Academic Template</span></div>
+        <div class="mini-preview mini-modern">
+          <div class="sample-cover sample-modern">
+            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
+            <p class="sample-dept">Department Name</p>
+            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
+            <h4>Assignment</h4>
+            <h5>Title: Report Title</h5>
+            <div class="sample-submit boxed"><div></div><div></div></div>
+          </div>
+        </div>
         <div class="template-card-body">
           <h3>Modern Template</h3>
           <p>Clean modern style with strong left accent.</p>
@@ -570,7 +1040,16 @@
       </article>
 
       <article class="template-card">
-        <div class="mini-preview mini-border"><span>Border Style Template</span></div>
+        <div class="mini-preview mini-border">
+          <div class="sample-cover sample-border">
+            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
+            <p class="sample-dept">Department Name</p>
+            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
+            <h4>Assignment</h4>
+            <h5>Title: Report Title</h5>
+            <div class="sample-submit"><div></div><div></div></div>
+          </div>
+        </div>
         <div class="template-card-body">
           <h3>Border Template</h3>
           <p>Formal border-based design for reports.</p>
@@ -579,7 +1058,16 @@
       </article>
 
       <article class="template-card">
-        <div class="mini-preview mini-clean"><span>Simple Clean Template</span></div>
+        <div class="mini-preview mini-clean">
+          <div class="sample-cover sample-clean">
+            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
+            <p class="sample-dept">Department Name</p>
+            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
+            <h4>Assignment</h4>
+            <h5>Title: Report Title</h5>
+            <div class="sample-submit boxed"><div></div><div></div></div>
+          </div>
+        </div>
         <div class="template-card-body">
           <h3>Clean Template</h3>
           <p>Simple, readable, and minimal cover page.</p>
@@ -635,6 +1123,11 @@
         </div>
 
         <div class="form-group">
+          <label for="teacherDepartment">Teacher Department Name</label>
+          <input id="teacherDepartment" type="text" placeholder="Department of Computer Science and Engineering" />
+        </div>
+
+        <div class="form-group">
           <label for="studentName">Submitted By</label>
           <input id="studentName" type="text" placeholder="Student name" />
         </div>
@@ -645,12 +1138,22 @@
         </div>
 
         <div class="form-group">
-          <label for="batchSection">Batch / Section</label>
-          <input id="batchSection" type="text" placeholder="Batch 20, Section A" />
+          <label for="batchSection">Section</label>
+          <input id="batchSection" type="text" placeholder="Section A" />
         </div>
 
         <div class="form-group">
-          <label for="submissionDate">Submission Date</label>
+          <label for="reportNo">Report No</label>
+          <input id="reportNo" type="text" placeholder="01" />
+        </div>
+
+        <div class="form-group">
+          <label for="performanceDate">Date of Performance</label>
+          <input id="performanceDate" type="date" />
+        </div>
+
+        <div class="form-group">
+          <label for="submissionDate">Date of Submission</label>
           <input id="submissionDate" type="date" />
         </div>
 
@@ -668,37 +1171,41 @@
 
         <div class="cover-stage" id="printArea">
           <div class="cover-page template-formal" id="coverPage">
-            <div class="logo-placeholder">U</div>
-            <h1 class="university-name" id="previewUniversity">Your University Name</h1>
-            <p class="department-name" id="previewDepartment">Department Name</p>
+            <div class="university-header">
+              <div class="logo-placeholder">U</div>
+              <h1 class="university-name" id="previewUniversity">Your University Name</h1>
+            </div>
+            <p class="department-name"><span id="previewDepartment">Department Name</span></p>
+
+            <div class="top-info-box">
+              <p><strong>Course Title:</strong> <span id="previewCourseTitleTop">Course Title</span></p>
+              <p><strong>Course Code:</strong> <span id="previewCourseCodeTop">Course Code</span></p>
+              <p><strong>Section:</strong> <span id="previewSectionTop">Section</span></p>
+              <p><strong>Report No:</strong> <span id="previewReportNoTop">Report No</span></p>
+            </div>
 
             <div class="cover-type" id="previewReportType">Assignment</div>
 
-            <h2 class="report-title" id="previewTitle">
-              <span class="empty-hint">Your report title will appear here</span>
-            </h2>
-
-            <div class="course-box">
-              <p><strong>Course Title:</strong> <span id="previewCourseTitle">Course Title</span></p>
-              <p><strong>Course Code:</strong> <span id="previewCourseCode">Course Code</span></p>
-            </div>
+            <h2 class="report-title">Title: <span id="previewTitle"><span class="empty-hint">Your report title will appear here</span></span></h2>
 
             <div class="submission-grid">
+              <div class="submission-card">
+                <h3>Submitted By</h3>
+                <p>Name: <span id="previewStudentName">Student Name</span></p>
+                <p>ID: <span id="previewStudentId">Student ID</span></p>
+              </div>
+
               <div class="submission-card">
                 <h3>Submitted To</h3>
                 <p id="previewSubmittedTo">Teacher Name</p>
                 <p id="previewTeacherDesignation">Teacher Designation</p>
-              </div>
-
-              <div class="submission-card">
-                <h3>Submitted By</h3>
-                <p id="previewStudentName">Student Name</p>
-                <p>ID: <span id="previewStudentId">Student ID</span></p>
-                <p id="previewBatchSection">Batch / Section</p>
+                <p id="previewTeacherDepartment">Teacher Department Name</p>
+                <p>EAST WEST UNIVERSITY</p>
               </div>
             </div>
 
-            <p class="submission-date">Submission Date: <span id="previewDate">Date</span></p>
+            <p class="submission-date">Date of Performance: <span id="previewPerformanceDate">Date</span></p>
+            <p class="submission-date date-submission">Date of Submission: <span id="previewDate">Date</span></p>
           </div>
         </div>
       </section>
@@ -710,8 +1217,8 @@
   </footer>
 
   <script>
-    const UNIVERSITY_NAME = "Your University Name";
-    const LOGO_IMAGE_PATH = "";
+    const UNIVERSITY_NAME = "EAST WEST UNIVERSITY";
+    const LOGO_IMAGE_PATH = "assets/ewu-logo.png";
 
     const editor = document.getElementById("editor");
     const coverPage = document.getElementById("coverPage");
@@ -725,9 +1232,12 @@
       courseCode: document.getElementById("courseCode"),
       submittedTo: document.getElementById("submittedTo"),
       teacherDesignation: document.getElementById("teacherDesignation"),
+      teacherDepartment: document.getElementById("teacherDepartment"),
       studentName: document.getElementById("studentName"),
       studentId: document.getElementById("studentId"),
       batchSection: document.getElementById("batchSection"),
+      reportNo: document.getElementById("reportNo"),
+      performanceDate: document.getElementById("performanceDate"),
       submissionDate: document.getElementById("submissionDate")
     };
 
@@ -736,13 +1246,16 @@
       department: document.getElementById("previewDepartment"),
       reportType: document.getElementById("previewReportType"),
       title: document.getElementById("previewTitle"),
-      courseTitle: document.getElementById("previewCourseTitle"),
-      courseCode: document.getElementById("previewCourseCode"),
+      courseTitleTop: document.getElementById("previewCourseTitleTop"),
+      courseCodeTop: document.getElementById("previewCourseCodeTop"),
+      sectionTop: document.getElementById("previewSectionTop"),
+      reportNoTop: document.getElementById("previewReportNoTop"),
       submittedTo: document.getElementById("previewSubmittedTo"),
       teacherDesignation: document.getElementById("previewTeacherDesignation"),
+      teacherDepartment: document.getElementById("previewTeacherDepartment"),
       studentName: document.getElementById("previewStudentName"),
       studentId: document.getElementById("previewStudentId"),
-      batchSection: document.getElementById("previewBatchSection"),
+      performanceDate: document.getElementById("previewPerformanceDate"),
       date: document.getElementById("previewDate")
     };
 
@@ -778,14 +1291,16 @@
 
       const title = fields.reportTitle.value.trim();
       preview.title.innerHTML = title ? title : '<span class="empty-hint">Your report title will appear here</span>';
-
-      preview.courseTitle.textContent = textOrDefault(fields.courseTitle.value, "Course Title");
-      preview.courseCode.textContent = textOrDefault(fields.courseCode.value, "Course Code");
+      preview.courseTitleTop.textContent = textOrDefault(fields.courseTitle.value, "Course Title");
+      preview.courseCodeTop.textContent = textOrDefault(fields.courseCode.value, "Course Code");
+      preview.sectionTop.textContent = textOrDefault(fields.batchSection.value, "Section");
+      preview.reportNoTop.textContent = textOrDefault(fields.reportNo.value, "Report No");
       preview.submittedTo.textContent = textOrDefault(fields.submittedTo.value, "Teacher Name");
       preview.teacherDesignation.textContent = textOrDefault(fields.teacherDesignation.value, "Teacher Designation");
+      preview.teacherDepartment.textContent = textOrDefault(fields.teacherDepartment.value, "Teacher Department Name");
       preview.studentName.textContent = textOrDefault(fields.studentName.value, "Student Name");
       preview.studentId.textContent = textOrDefault(fields.studentId.value, "Student ID");
-      preview.batchSection.textContent = textOrDefault(fields.batchSection.value, "Batch / Section");
+      preview.performanceDate.textContent = formatDate(fields.performanceDate.value);
       preview.date.textContent = formatDate(fields.submissionDate.value);
     }
 
