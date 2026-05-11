@@ -663,11 +663,16 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
     }
 
     .cover-page {
       width: 794px;
+      height: 1123px;
       min-height: 1123px;
+      overflow: hidden;
       transform-origin: top center;
       background: white;
       margin: 0 auto;
@@ -1052,8 +1057,21 @@
 
       .cover-stage {
         justify-content: center;
-        padding: 12px;
+        padding: 0;
         overflow: hidden;
+        min-height: 0;
+        width: min(300px, calc(100vw - 48px));
+        height: auto;
+      }
+
+      .cover-stage .cover-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .cover-page {
+        margin: 0;
       }
 
       .footer-note {
@@ -1519,13 +1537,44 @@
       const page = document.getElementById("coverPage");
       if (!stage || !page) return;
 
-      const availableWidth = stage.clientWidth - 24;
       const originalWidth = 794;
       const originalHeight = 1123;
+      const isMobile = window.innerWidth <= 640;
+
+      if (isMobile) {
+        const previewWidth = Math.min(stage.parentElement.clientWidth - 24, 300);
+        const scale = previewWidth / originalWidth;
+        const previewHeight = originalHeight * scale;
+
+        stage.style.width = `${previewWidth}px`;
+        stage.style.height = `${previewHeight}px`;
+        stage.style.padding = "0";
+        stage.style.justifyContent = "center";
+        page.style.position = "absolute";
+        page.style.top = "0";
+        page.style.left = "0";
+        page.style.margin = "0";
+        page.style.transformOrigin = "top left";
+        page.style.transform = `scale(${scale})`;
+        return;
+      }
+
+      stage.style.width = "auto";
+      stage.style.padding = "18px";
+      stage.style.justifyContent = "center";
+      page.style.position = "relative";
+      page.style.top = "auto";
+      page.style.left = "auto";
+      page.style.margin = "0 auto";
+      page.style.transformOrigin = "top center";
+
+      const paddingOffset = 36;
+      const availableWidth = Math.max(280, stage.clientWidth - paddingOffset);
       const scale = Math.min(1, availableWidth / originalWidth);
+      const previewHeight = Math.ceil(originalHeight * scale);
 
       page.style.transform = `scale(${scale})`;
-      stage.style.height = `${originalHeight * scale + 36}px`;
+      stage.style.height = `${previewHeight + paddingOffset}px`;
     }
 
     function textOrDefault(value, fallback) {
@@ -1585,8 +1634,9 @@
 
     setLogo();
     updatePreview();
-    resizeCoverPreview();
+    requestAnimationFrame(resizeCoverPreview);
     window.addEventListener("resize", resizeCoverPreview);
+    window.addEventListener("orientationchange", () => setTimeout(resizeCoverPreview, 150));
   </script>
 </body>
 </html>
