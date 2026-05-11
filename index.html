@@ -216,15 +216,11 @@
       margin-bottom: 30px;
     }
 
-    .hero-logo-dot {
+    .hero-logo-img {
       width: 54px;
       height: 54px;
-      border-radius: 50%;
-      border: 2px solid #233876;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      color: #233876;
+      object-fit: contain;
+      flex-shrink: 0;
     }
 
     .hero-doc-title {
@@ -318,7 +314,7 @@
     }
 
     .mini-preview {
-      height: 270px;
+      height: 310px;
       margin: 16px;
       background: linear-gradient(180deg, #f9fbff, #eef3fb);
       border: 1px solid #dbe3f0;
@@ -341,132 +337,23 @@
       background: rgba(35, 56, 118, 0.08);
     }
 
-    .template-snapshot {
-      width: 158px;
-      height: 224px;
-      background: #ffffff;
-      padding: 18px 16px;
-      color: #111827;
-      box-shadow: 0 16px 32px rgba(17, 24, 39, 0.12);
+    .template-thumb-frame {
+      width: 150px;
+      height: 212px;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 16px 30px rgba(17, 24, 39, 0.12);
     }
 
-    .snapshot-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      margin-bottom: 16px;
-    }
-
-    .snapshot-logo {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid #233876;
-      display: grid;
-      place-items: center;
-      font-size: 7px;
-      font-weight: 900;
-      color: #233876;
-      flex-shrink: 0;
-    }
-
-    .snapshot-name {
-      font-size: 8px;
-      line-height: 1.15;
-      font-weight: 900;
-      color: #172554;
-      text-align: left;
-    }
-
-    .snapshot-line {
-      height: 7px;
-      border-radius: 999px;
-      background: #dfe6f2;
-      margin-bottom: 8px;
-    }
-
-    .snapshot-line.wide { width: 82%; }
-    .snapshot-line.mid { width: 62%; }
-
-    .snapshot-badge {
-      margin-top: 18px;
-      padding: 7px 13px;
-      border-radius: 999px;
-      background: #eef2ff;
-      color: #233876;
-      font-size: 8px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .snapshot-title {
-      width: 72%;
-      height: 9px;
-      border-radius: 999px;
-      background: #cfd8ea;
-      margin-top: 18px;
-    }
-
-    .snapshot-bottom {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      width: 100%;
-      margin-top: auto;
-    }
-
-    .snapshot-bottom div {
-      height: 36px;
-      border-top: 2px solid #233876;
-    }
-
-    .snapshot-bottom.boxed div {
-      border-top: 0;
-      background: #f3f6fb;
-      border-radius: 9px;
-    }
-
-    .snapshot-formal {
-      border-radius: 6px;
-    }
-
-    .snapshot-modern {
-      border-left: 8px solid #233876;
-      border-radius: 6px;
-    }
-
-    .snapshot-modern::after {
-      content: "";
+    .template-thumb-frame .template-thumb-cover {
       position: absolute;
-      right: 0;
       top: 0;
-      width: 52px;
-      height: 52px;
-      background: #eef2ff;
-      border-bottom-left-radius: 100%;
-    }
-
-    .snapshot-modern > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .snapshot-border {
-      border: 2px solid #233876;
-      border-radius: 6px;
-    }
-
-    .snapshot-clean {
-      border-bottom: 8px solid #233876;
-      border-radius: 6px;
+      left: 0;
+      margin: 0;
+      transform: scale(0.189);
+      transform-origin: top left;
+      pointer-events: none;
     }
 
     .template-card-body {
@@ -689,35 +576,31 @@
     .cover-logo {
       width: 92px;
       height: 92px;
-      border-radius: 50%;
       object-fit: contain;
-      margin-bottom: 18px;
-      border: 2px solid #1d2f68;
-      padding: 8px;
-      background: white;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      background: transparent;
+      flex-shrink: 0;
     }
 
     .logo-placeholder {
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      border: 2px solid #1d2f68;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      font-weight: 800;
-      color: #1d2f68;
-      margin-bottom: 18px;
+      display: none;
     }
 
     .university-header {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
+      gap: 18px;
       width: 100%;
       margin-bottom: 12px;
+    }
+
+    .university-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .university-header .cover-logo,
@@ -733,13 +616,15 @@
       line-height: 1.2;
       max-width: 520px;
       text-align: left;
+      margin: 0;
     }
 
     .department-name {
       font-size: 18px;
-      margin-top: 0;
-      transform: translateY(-4px);
+      margin: 2px 0 0 0;
+      transform: none;
       color: #2d3748;
+      text-align: left;
     }
 
     .top-info-box {
@@ -1197,7 +1082,7 @@
       <div class="hero-visual">
         <div class="hero-document">
           <div class="hero-doc-header">
-            <div class="hero-logo-dot">EWU</div>
+            <img src="assets/ewu-logo.png" alt="East West University Logo" class="hero-logo-img">
             <div class="hero-doc-title">EAST WEST UNIVERSITY</div>
           </div>
           <div class="hero-doc-line mid"></div>
@@ -1223,18 +1108,39 @@
     <section class="template-grid">
       <article class="template-card">
         <div class="mini-preview mini-formal">
-          <div class="template-snapshot snapshot-formal">
-            <div class="snapshot-header">
-              <div class="snapshot-logo">EWU</div>
-              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
-            </div>
-            <div class="snapshot-line wide"></div>
-            <div class="snapshot-line mid"></div>
-            <div class="snapshot-badge">Assignment</div>
-            <div class="snapshot-title"></div>
-            <div class="snapshot-bottom">
-              <div></div>
-              <div></div>
+          <div class="template-thumb-frame">
+            <div class="cover-page template-formal template-thumb-cover">
+              <div class="university-header">
+                <img src="assets/ewu-logo.png" alt="East West University Logo" class="cover-logo">
+                <div class="university-text">
+                  <h1 class="university-name">EAST WEST UNIVERSITY</h1>
+                  <p class="department-name">Department Name</p>
+                </div>
+              </div>
+              <div class="top-info-box">
+                <p><strong>Course Title:</strong> <span>Sample Course</span></p>
+                <p><strong>Course Code:</strong> <span>CSE 101</span></p>
+                <p><strong>Section:</strong> <span>1</span></p>
+                <p><strong>Report No:</strong> <span>01</span></p>
+              </div>
+              <div class="cover-type">Assignment</div>
+              <h2 class="report-title">Title: <span>Sample Report</span></h2>
+              <div class="submission-grid">
+                <div class="submission-card">
+                  <h3>Submitted By</h3>
+                  <p>Name: Student Name</p>
+                  <p>ID: 2024-1-60-001</p>
+                </div>
+                <div class="submission-card">
+                  <h3>Submitted To</h3>
+                  <p>Teacher Name</p>
+                  <p>Teacher Designation</p>
+                  <p>Teacher Department Name</p>
+                  <p class="submitted-university">EAST WEST UNIVERSITY</p>
+                </div>
+              </div>
+              <p class="submission-date">Date of Performance: 01 January 2026</p>
+              <p class="submission-date date-submission">Date of Submission: 02 January 2026</p>
             </div>
           </div>
         </div>
@@ -1247,18 +1153,39 @@
 
       <article class="template-card">
         <div class="mini-preview mini-modern">
-          <div class="template-snapshot snapshot-modern">
-            <div class="snapshot-header">
-              <div class="snapshot-logo">EWU</div>
-              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
-            </div>
-            <div class="snapshot-line wide"></div>
-            <div class="snapshot-line mid"></div>
-            <div class="snapshot-badge">Assignment</div>
-            <div class="snapshot-title"></div>
-            <div class="snapshot-bottom boxed">
-              <div></div>
-              <div></div>
+          <div class="template-thumb-frame">
+            <div class="cover-page template-modern template-thumb-cover">
+              <div class="university-header">
+                <img src="assets/ewu-logo.png" alt="East West University Logo" class="cover-logo">
+                <div class="university-text">
+                  <h1 class="university-name">EAST WEST UNIVERSITY</h1>
+                  <p class="department-name">Department Name</p>
+                </div>
+              </div>
+              <div class="top-info-box">
+                <p><strong>Course Title:</strong> <span>Sample Course</span></p>
+                <p><strong>Course Code:</strong> <span>CSE 101</span></p>
+                <p><strong>Section:</strong> <span>1</span></p>
+                <p><strong>Report No:</strong> <span>01</span></p>
+              </div>
+              <div class="cover-type">Assignment</div>
+              <h2 class="report-title">Title: <span>Sample Report</span></h2>
+              <div class="submission-grid">
+                <div class="submission-card">
+                  <h3>Submitted By</h3>
+                  <p>Name: Student Name</p>
+                  <p>ID: 2024-1-60-001</p>
+                </div>
+                <div class="submission-card">
+                  <h3>Submitted To</h3>
+                  <p>Teacher Name</p>
+                  <p>Teacher Designation</p>
+                  <p>Teacher Department Name</p>
+                  <p class="submitted-university">EAST WEST UNIVERSITY</p>
+                </div>
+              </div>
+              <p class="submission-date">Date of Performance: 01 January 2026</p>
+              <p class="submission-date date-submission">Date of Submission: 02 January 2026</p>
             </div>
           </div>
         </div>
@@ -1271,18 +1198,39 @@
 
       <article class="template-card">
         <div class="mini-preview mini-border">
-          <div class="template-snapshot snapshot-border">
-            <div class="snapshot-header">
-              <div class="snapshot-logo">EWU</div>
-              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
-            </div>
-            <div class="snapshot-line wide"></div>
-            <div class="snapshot-line mid"></div>
-            <div class="snapshot-badge">Assignment</div>
-            <div class="snapshot-title"></div>
-            <div class="snapshot-bottom">
-              <div></div>
-              <div></div>
+          <div class="template-thumb-frame">
+            <div class="cover-page template-border template-thumb-cover">
+              <div class="university-header">
+                <img src="assets/ewu-logo.png" alt="East West University Logo" class="cover-logo">
+                <div class="university-text">
+                  <h1 class="university-name">EAST WEST UNIVERSITY</h1>
+                  <p class="department-name">Department Name</p>
+                </div>
+              </div>
+              <div class="top-info-box">
+                <p><strong>Course Title:</strong> <span>Sample Course</span></p>
+                <p><strong>Course Code:</strong> <span>CSE 101</span></p>
+                <p><strong>Section:</strong> <span>1</span></p>
+                <p><strong>Report No:</strong> <span>01</span></p>
+              </div>
+              <div class="cover-type">Assignment</div>
+              <h2 class="report-title">Title: <span>Sample Report</span></h2>
+              <div class="submission-grid">
+                <div class="submission-card">
+                  <h3>Submitted By</h3>
+                  <p>Name: Student Name</p>
+                  <p>ID: 2024-1-60-001</p>
+                </div>
+                <div class="submission-card">
+                  <h3>Submitted To</h3>
+                  <p>Teacher Name</p>
+                  <p>Teacher Designation</p>
+                  <p>Teacher Department Name</p>
+                  <p class="submitted-university">EAST WEST UNIVERSITY</p>
+                </div>
+              </div>
+              <p class="submission-date">Date of Performance: 01 January 2026</p>
+              <p class="submission-date date-submission">Date of Submission: 02 January 2026</p>
             </div>
           </div>
         </div>
@@ -1295,18 +1243,39 @@
 
       <article class="template-card">
         <div class="mini-preview mini-clean">
-          <div class="template-snapshot snapshot-clean">
-            <div class="snapshot-header">
-              <div class="snapshot-logo">EWU</div>
-              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
-            </div>
-            <div class="snapshot-line wide"></div>
-            <div class="snapshot-line mid"></div>
-            <div class="snapshot-badge">Assignment</div>
-            <div class="snapshot-title"></div>
-            <div class="snapshot-bottom boxed">
-              <div></div>
-              <div></div>
+          <div class="template-thumb-frame">
+            <div class="cover-page template-clean template-thumb-cover">
+              <div class="university-header">
+                <img src="assets/ewu-logo.png" alt="East West University Logo" class="cover-logo">
+                <div class="university-text">
+                  <h1 class="university-name">EAST WEST UNIVERSITY</h1>
+                  <p class="department-name">Department Name</p>
+                </div>
+              </div>
+              <div class="top-info-box">
+                <p><strong>Course Title:</strong> <span>Sample Course</span></p>
+                <p><strong>Course Code:</strong> <span>CSE 101</span></p>
+                <p><strong>Section:</strong> <span>1</span></p>
+                <p><strong>Report No:</strong> <span>01</span></p>
+              </div>
+              <div class="cover-type">Assignment</div>
+              <h2 class="report-title">Title: <span>Sample Report</span></h2>
+              <div class="submission-grid">
+                <div class="submission-card">
+                  <h3>Submitted By</h3>
+                  <p>Name: Student Name</p>
+                  <p>ID: 2024-1-60-001</p>
+                </div>
+                <div class="submission-card">
+                  <h3>Submitted To</h3>
+                  <p>Teacher Name</p>
+                  <p>Teacher Designation</p>
+                  <p>Teacher Department Name</p>
+                  <p class="submitted-university">EAST WEST UNIVERSITY</p>
+                </div>
+              </div>
+              <p class="submission-date">Date of Performance: 01 January 2026</p>
+              <p class="submission-date date-submission">Date of Submission: 02 January 2026</p>
             </div>
           </div>
         </div>
@@ -1420,10 +1389,13 @@
         <div class="cover-stage" id="printArea">
           <div class="cover-page template-formal" id="coverPage">
             <div class="university-header">
-              <div class="logo-placeholder">U</div>
-              <h1 class="university-name" id="previewUniversity">Your University Name</h1>
+              <img src="assets/ewu-logo.png" alt="East West University Logo" class="cover-logo">
+
+              <div class="university-text">
+                <h1 class="university-name" id="previewUniversity">EAST WEST UNIVERSITY</h1>
+                <p class="department-name"><span id="previewDepartment">Department Name</span></p>
+              </div>
             </div>
-            <p class="department-name"><span id="previewDepartment">Department Name</span></p>
 
             <div class="top-info-box">
               <p><strong>Course Title:</strong> <span id="previewCourseTitleTop">Course Title</span></p>
@@ -1470,7 +1442,6 @@
 
   <script>
     const UNIVERSITY_NAME = "EAST WEST UNIVERSITY";
-    const LOGO_IMAGE_PATH = "assets/ewu-logo.png";
 
     const editor = document.getElementById("editor");
     const coverPage = document.getElementById("coverPage");
@@ -1519,17 +1490,6 @@
         month: "long",
         year: "numeric"
       });
-    }
-
-    function setLogo() {
-      const logoArea = document.querySelector(".logo-placeholder, .cover-logo");
-      if (!LOGO_IMAGE_PATH) return;
-
-      const img = document.createElement("img");
-      img.src = LOGO_IMAGE_PATH;
-      img.alt = "University Logo";
-      img.className = "cover-logo";
-      logoArea.replaceWith(img);
     }
 
     function resizeCoverPreview() {
@@ -1631,8 +1591,6 @@
 
     document.getElementById("downloadBtn").addEventListener("click", () => window.print());
     document.getElementById("clearBtn").addEventListener("click", clearForm);
-
-    setLogo();
     updatePreview();
     requestAnimationFrame(resizeCoverPreview);
     window.addEventListener("resize", resizeCoverPreview);
