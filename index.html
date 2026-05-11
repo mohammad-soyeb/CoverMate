@@ -314,7 +314,7 @@
     }
 
     .mini-preview {
-      height: 310px;
+      height: 260px;
       margin: 16px;
       background: linear-gradient(180deg, #f9fbff, #eef3fb);
       border: 1px solid #dbe3f0;
@@ -329,10 +329,10 @@
     .mini-preview::before {
       content: "";
       position: absolute;
-      width: 150px;
-      height: 150px;
-      right: -70px;
-      top: -70px;
+      width: 135px;
+      height: 135px;
+      right: -64px;
+      top: -64px;
       border-radius: 50%;
       background: rgba(35, 56, 118, 0.08);
     }
@@ -1299,16 +1299,38 @@
             <label for="reportType">Report Type</label>
             <select id="reportType">
               <option>Assignment</option>
-              <option>Project Report</option>
               <option>Lab Report</option>
               <option>Presentation Report</option>
-              <option>Thesis Proposal</option>
+              <option>Project Report</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="department">Department</label>
-            <input id="department" type="text" placeholder="Department of Computer Science and Engineering" />
+            <select id="department">
+              <option value="" selected disabled>Select Department</option>
+              <optgroup label="Faculty of Sciences & Engineering">
+                <option>Department of Computer Science & Engineering (CSE)</option>
+                <option>Department of Electrical & Electronic Engineering (EEE)</option>
+                <option>Department of Electronics and Communications Engineering (ECE)</option>
+                <option>Department of Genetic Engineering and Biotechnology (GEB)</option>
+                <option>Department of Pharmacy</option>
+                <option>Department of Civil Engineering</option>
+                <option>Department of Mathematical and Physical Sciences (MPS)</option>
+              </optgroup>
+              <optgroup label="Faculty of Liberal Arts & Social Sciences">
+                <option>Department of English</option>
+                <option>Department of Law</option>
+                <option>Department of Sociology</option>
+                <option>Department of Information Studies & Library Management</option>
+                <option>Department of Social Relations</option>
+                <option>Department of Media Communications and International Affairs</option>
+              </optgroup>
+              <optgroup label="Faculty of Business & Economics">
+                <option>Department of Business Administration</option>
+                <option>Department of Economics</option>
+              </optgroup>
+            </select>
           </div>
 
           <div class="form-group">
@@ -1376,7 +1398,30 @@
 
           <div class="form-group">
             <label for="teacherDepartment">Teacher Department Name</label>
-            <input id="teacherDepartment" type="text" placeholder="Department of Computer Science and Engineering" />
+            <select id="teacherDepartment">
+              <option value="" selected disabled>Select Teacher Department</option>
+              <optgroup label="Faculty of Sciences & Engineering">
+                <option>Department of Computer Science & Engineering (CSE)</option>
+                <option>Department of Electrical & Electronic Engineering (EEE)</option>
+                <option>Department of Electronics and Communications Engineering (ECE)</option>
+                <option>Department of Genetic Engineering and Biotechnology (GEB)</option>
+                <option>Department of Pharmacy</option>
+                <option>Department of Civil Engineering</option>
+                <option>Department of Mathematical and Physical Sciences (MPS)</option>
+              </optgroup>
+              <optgroup label="Faculty of Liberal Arts & Social Sciences">
+                <option>Department of English</option>
+                <option>Department of Law</option>
+                <option>Department of Sociology</option>
+                <option>Department of Information Studies & Library Management</option>
+                <option>Department of Social Relations</option>
+                <option>Department of Media Communications and International Affairs</option>
+              </optgroup>
+              <optgroup label="Faculty of Business & Economics">
+                <option>Department of Business Administration</option>
+                <option>Department of Economics</option>
+              </optgroup>
+            </select>
           </div>
         </div>
       </aside>
