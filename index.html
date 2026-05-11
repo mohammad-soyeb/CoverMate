@@ -341,32 +341,30 @@
       background: rgba(35, 56, 118, 0.08);
     }
 
-    .sample-cover {
-      width: 164px;
-      height: 228px;
+    .template-snapshot {
+      width: 158px;
+      height: 224px;
       background: #ffffff;
-      padding: 16px 14px;
+      padding: 18px 16px;
       color: #111827;
+      box-shadow: 0 16px 32px rgba(17, 24, 39, 0.12);
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      box-shadow: 0 16px 30px rgba(17, 24, 39, 0.12);
-      position: relative;
       overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .sample-head {
+    .snapshot-header {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
-    .sample-logo {
+    .snapshot-logo {
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -379,113 +377,96 @@
       flex-shrink: 0;
     }
 
-    .sample-head strong {
-      font-size: 9px;
-      line-height: 1.1;
-      text-align: left;
+    .snapshot-name {
+      font-size: 8px;
+      line-height: 1.15;
+      font-weight: 900;
       color: #172554;
+      text-align: left;
     }
 
-    .sample-dept {
-      width: 70%;
+    .snapshot-line {
       height: 7px;
       border-radius: 999px;
-      background: #dbe3f0;
-      font-size: 0;
-      margin-bottom: 14px;
+      background: #dfe6f2;
+      margin-bottom: 8px;
     }
 
-    .sample-info {
-      width: 100%;
-      padding: 9px 0;
-      margin-bottom: 18px;
-      border-top: 1px solid #dbe3f0;
-      border-bottom: 1px solid #dbe3f0;
-    }
+    .snapshot-line.wide { width: 82%; }
+    .snapshot-line.mid { width: 62%; }
 
-    .sample-info span {
-      display: block;
-      width: 82%;
-      height: 6px;
-      margin: 5px auto;
-      background: #e6ebf4;
+    .snapshot-badge {
+      margin-top: 18px;
+      padding: 7px 13px;
       border-radius: 999px;
-      font-size: 0;
-    }
-
-    .sample-info span:nth-child(2) { width: 68%; }
-    .sample-info span:nth-child(3) { width: 54%; }
-    .sample-info span:nth-child(4) { width: 46%; }
-
-    .sample-cover h4 {
+      background: #eef2ff;
       color: #233876;
-      font-size: 11px;
+      font-size: 8px;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 12px;
+      letter-spacing: 0.5px;
     }
 
-    .sample-cover h5 {
-      width: 78%;
+    .snapshot-title {
+      width: 72%;
       height: 9px;
       border-radius: 999px;
       background: #cfd8ea;
-      font-size: 0;
-      margin-bottom: auto;
+      margin-top: 18px;
     }
 
-    .sample-submit {
+    .snapshot-bottom {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 9px;
       width: 100%;
-      margin-top: 22px;
+      margin-top: auto;
     }
 
-    .sample-submit div {
-      height: 34px;
+    .snapshot-bottom div {
+      height: 36px;
       border-top: 2px solid #233876;
     }
 
-    .sample-submit.boxed div {
+    .snapshot-bottom.boxed div {
       border-top: 0;
       background: #f3f6fb;
-      border-radius: 8px;
+      border-radius: 9px;
     }
 
-    .sample-formal {
-      border-radius: 4px;
+    .snapshot-formal {
+      border-radius: 6px;
     }
 
-    .sample-modern {
-      border-left: 7px solid #233876;
-      border-radius: 4px;
+    .snapshot-modern {
+      border-left: 8px solid #233876;
+      border-radius: 6px;
     }
 
-    .sample-modern::after {
+    .snapshot-modern::after {
       content: "";
       position: absolute;
       right: 0;
       top: 0;
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       background: #eef2ff;
       border-bottom-left-radius: 100%;
     }
 
-    .sample-modern > * {
+    .snapshot-modern > * {
       position: relative;
       z-index: 1;
     }
 
-    .sample-border {
+    .snapshot-border {
       border: 2px solid #233876;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
-    .sample-clean {
-      border-bottom: 7px solid #233876;
-      border-radius: 4px;
+    .snapshot-clean {
+      border-bottom: 8px solid #233876;
+      border-radius: 6px;
     }
 
     .template-card-body {
@@ -1015,7 +996,24 @@
 
     <section class="template-grid">
       <article class="template-card">
-        
+        <div class="mini-preview mini-formal">
+          <div class="template-snapshot snapshot-formal">
+            <div class="snapshot-header">
+              <div class="snapshot-logo">EWU</div>
+              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
+            </div>
+            <div class="snapshot-line wide"></div>
+            <div class="snapshot-line mid"></div>
+            <div class="snapshot-badge">Assignment</div>
+            <div class="snapshot-title"></div>
+            <div class="snapshot-bottom">
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-card-body">
+          <h3>Formal Template</h3>
           <p>Classic academic style with double border.</p>
           <button class="edit-btn" data-template="template-formal">Edit Template</button>
         </div>
@@ -1023,13 +1021,19 @@
 
       <article class="template-card">
         <div class="mini-preview mini-modern">
-          <div class="sample-cover sample-modern">
-            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
-            <p class="sample-dept">Department Name</p>
-            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
-            <h4>Assignment</h4>
-            <h5>Title: Report Title</h5>
-            <div class="sample-submit boxed"><div></div><div></div></div>
+          <div class="template-snapshot snapshot-modern">
+            <div class="snapshot-header">
+              <div class="snapshot-logo">EWU</div>
+              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
+            </div>
+            <div class="snapshot-line wide"></div>
+            <div class="snapshot-line mid"></div>
+            <div class="snapshot-badge">Assignment</div>
+            <div class="snapshot-title"></div>
+            <div class="snapshot-bottom boxed">
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
         <div class="template-card-body">
@@ -1041,13 +1045,19 @@
 
       <article class="template-card">
         <div class="mini-preview mini-border">
-          <div class="sample-cover sample-border">
-            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
-            <p class="sample-dept">Department Name</p>
-            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
-            <h4>Assignment</h4>
-            <h5>Title: Report Title</h5>
-            <div class="sample-submit"><div></div><div></div></div>
+          <div class="template-snapshot snapshot-border">
+            <div class="snapshot-header">
+              <div class="snapshot-logo">EWU</div>
+              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
+            </div>
+            <div class="snapshot-line wide"></div>
+            <div class="snapshot-line mid"></div>
+            <div class="snapshot-badge">Assignment</div>
+            <div class="snapshot-title"></div>
+            <div class="snapshot-bottom">
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
         <div class="template-card-body">
@@ -1059,13 +1069,19 @@
 
       <article class="template-card">
         <div class="mini-preview mini-clean">
-          <div class="sample-cover sample-clean">
-            <div class="sample-head"><div class="sample-logo">EWU</div><strong>EAST WEST UNIVERSITY</strong></div>
-            <p class="sample-dept">Department Name</p>
-            <div class="sample-info"><span>Course Title</span><span>Course Code</span><span>Section</span><span>Report No</span></div>
-            <h4>Assignment</h4>
-            <h5>Title: Report Title</h5>
-            <div class="sample-submit boxed"><div></div><div></div></div>
+          <div class="template-snapshot snapshot-clean">
+            <div class="snapshot-header">
+              <div class="snapshot-logo">EWU</div>
+              <div class="snapshot-name">EAST WEST UNIVERSITY</div>
+            </div>
+            <div class="snapshot-line wide"></div>
+            <div class="snapshot-line mid"></div>
+            <div class="snapshot-badge">Assignment</div>
+            <div class="snapshot-title"></div>
+            <div class="snapshot-bottom boxed">
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
         <div class="template-card-body">
