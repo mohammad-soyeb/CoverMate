@@ -1410,26 +1410,26 @@
             <label for="department">Department</label>
             <select id="department" class="department-select">
               <option value="" selected disabled>Select Department</option>
-              <optgroup label="── Faculty of Sciences & Engineering ──">
-                <option value="Department of Computer Science & Engineering (CSE)">CSE - Computer Science & Engineering</option>
-                <option value="Department of Electrical & Electronic Engineering (EEE)">EEE - Electrical & Electronic Engineering</option>
-                <option value="Department of Electronics and Communications Engineering (ECE)">ECE - Electronics & Communications Engineering</option>
-                <option value="Department of Genetic Engineering and Biotechnology (GEB)">GEB - Genetic Engineering & Biotechnology</option>
-                <option value="Department of Pharmacy">Pharmacy</option>
-                <option value="Department of Civil Engineering">Civil Engineering</option>
-                <option value="Department of Mathematical and Physical Sciences (MPS)">MPS - Mathematical & Physical Sciences</option>
+              <optgroup label="Faculty of Sciences & Engineering">
+                <option value="Department of Computer Science & Engineering (CSE)">Department of Computer Science & Engineering (CSE)</option>
+                <option value="Department of Electrical & Electronic Engineering (EEE)">Department of Electrical & Electronic Engineering (EEE)</option>
+                <option value="Department of Electronics and Communications Engineering (ECE)">Department of Electronics and Communications Engineering (ECE)</option>
+                <option value="Department of Genetic Engineering and Biotechnology (GEB)">Department of Genetic Engineering and Biotechnology (GEB)</option>
+                <option value="Department of Pharmacy">Department of Pharmacy</option>
+                <option value="Department of Civil Engineering">Department of Civil Engineering</option>
+                <option value="Department of Mathematical and Physical Sciences (MPS)">Department of Mathematical and Physical Sciences (MPS)</option>
               </optgroup>
-              <optgroup label="── Faculty of Liberal Arts & Social Sciences ──">
-                <option value="Department of English">English</option>
-                <option value="Department of Law">Law</option>
-                <option value="Department of Sociology">Sociology</option>
-                <option value="Department of Information Studies & Library Management">Information Studies & Library Management</option>
-                <option value="Department of Social Relations">Social Relations</option>
-                <option value="Department of Media Communications and International Affairs">Media Communications & International Affairs</option>
+              <optgroup label="Faculty of Liberal Arts & Social Sciences">
+                <option value="Department of English">Department of English</option>
+                <option value="Department of Law">Department of Law</option>
+                <option value="Department of Sociology">Department of Sociology</option>
+                <option value="Department of Information Studies & Library Management">Department of Information Studies & Library Management</option>
+                <option value="Department of Social Relations">Department of Social Relations</option>
+                <option value="Department of Media Communications and International Affairs">Department of Media Communications and International Affairs</option>
               </optgroup>
-              <optgroup label="── Faculty of Business & Economics ──">
-                <option value="Department of Business Administration">Business Administration</option>
-                <option value="Department of Economics">Economics</option>
+              <optgroup label="Faculty of Business & Economics">
+                <option value="Department of Business Administration">Department of Business Administration</option>
+                <option value="Department of Economics">Department of Economics</option>
               </optgroup>
             </select>
           </div>
@@ -1501,26 +1501,26 @@
             <label for="teacherDepartment">Teacher Department Name</label>
             <select id="teacherDepartment" class="department-select">
               <option value="" selected disabled>Select Teacher Department</option>
-              <optgroup label="── Faculty of Sciences & Engineering ──">
-                <option value="Department of Computer Science & Engineering (CSE)">CSE - Computer Science & Engineering</option>
-                <option value="Department of Electrical & Electronic Engineering (EEE)">EEE - Electrical & Electronic Engineering</option>
-                <option value="Department of Electronics and Communications Engineering (ECE)">ECE - Electronics & Communications Engineering</option>
-                <option value="Department of Genetic Engineering and Biotechnology (GEB)">GEB - Genetic Engineering & Biotechnology</option>
-                <option value="Department of Pharmacy">Pharmacy</option>
-                <option value="Department of Civil Engineering">Civil Engineering</option>
-                <option value="Department of Mathematical and Physical Sciences (MPS)">MPS - Mathematical & Physical Sciences</option>
+              <optgroup label="Faculty of Sciences & Engineering">
+                <option value="Department of Computer Science & Engineering (CSE)">Department of Computer Science & Engineering (CSE)</option>
+                <option value="Department of Electrical & Electronic Engineering (EEE)">Department of Electrical & Electronic Engineering (EEE)</option>
+                <option value="Department of Electronics and Communications Engineering (ECE)">Department of Electronics and Communications Engineering (ECE)</option>
+                <option value="Department of Genetic Engineering and Biotechnology (GEB)">Department of Genetic Engineering and Biotechnology (GEB)</option>
+                <option value="Department of Pharmacy">Department of Pharmacy</option>
+                <option value="Department of Civil Engineering">Department of Civil Engineering</option>
+                <option value="Department of Mathematical and Physical Sciences (MPS)">Department of Mathematical and Physical Sciences (MPS)</option>
               </optgroup>
-              <optgroup label="── Faculty of Liberal Arts & Social Sciences ──">
-                <option value="Department of English">English</option>
-                <option value="Department of Law">Law</option>
-                <option value="Department of Sociology">Sociology</option>
-                <option value="Department of Information Studies & Library Management">Information Studies & Library Management</option>
-                <option value="Department of Social Relations">Social Relations</option>
-                <option value="Department of Media Communications and International Affairs">Media Communications & International Affairs</option>
+              <optgroup label="Faculty of Liberal Arts & Social Sciences">
+                <option value="Department of English">Department of English</option>
+                <option value="Department of Law">Department of Law</option>
+                <option value="Department of Sociology">Department of Sociology</option>
+                <option value="Department of Information Studies & Library Management">Department of Information Studies & Library Management</option>
+                <option value="Department of Social Relations">Department of Social Relations</option>
+                <option value="Department of Media Communications and International Affairs">Department of Media Communications and International Affairs</option>
               </optgroup>
-              <optgroup label="── Faculty of Business & Economics ──">
-                <option value="Department of Business Administration">Business Administration</option>
-                <option value="Department of Economics">Economics</option>
+              <optgroup label="Faculty of Business & Economics">
+                <option value="Department of Business Administration">Department of Business Administration</option>
+                <option value="Department of Economics">Department of Economics</option>
               </optgroup>
             </select>
           </div>
@@ -1626,6 +1626,66 @@
       performanceDate: document.getElementById("previewPerformanceDate"),
       date: document.getElementById("previewDate")
     };
+
+    const desktopDepartmentOptions = `
+      <option value="" selected disabled>Select Department</option>
+      <optgroup label="Faculty of Sciences & Engineering">
+        <option value="Department of Computer Science & Engineering (CSE)">Department of Computer Science & Engineering (CSE)</option>
+        <option value="Department of Electrical & Electronic Engineering (EEE)">Department of Electrical & Electronic Engineering (EEE)</option>
+        <option value="Department of Electronics and Communications Engineering (ECE)">Department of Electronics and Communications Engineering (ECE)</option>
+        <option value="Department of Genetic Engineering and Biotechnology (GEB)">Department of Genetic Engineering and Biotechnology (GEB)</option>
+        <option value="Department of Pharmacy">Department of Pharmacy</option>
+        <option value="Department of Civil Engineering">Department of Civil Engineering</option>
+        <option value="Department of Mathematical and Physical Sciences (MPS)">Department of Mathematical and Physical Sciences (MPS)</option>
+      </optgroup>
+      <optgroup label="Faculty of Liberal Arts & Social Sciences">
+        <option value="Department of English">Department of English</option>
+        <option value="Department of Law">Department of Law</option>
+        <option value="Department of Sociology">Department of Sociology</option>
+        <option value="Department of Information Studies & Library Management">Department of Information Studies & Library Management</option>
+        <option value="Department of Social Relations">Department of Social Relations</option>
+        <option value="Department of Media Communications and International Affairs">Department of Media Communications and International Affairs</option>
+      </optgroup>
+      <optgroup label="Faculty of Business & Economics">
+        <option value="Department of Business Administration">Department of Business Administration</option>
+        <option value="Department of Economics">Department of Economics</option>
+      </optgroup>
+    `;
+
+    const desktopTeacherDepartmentOptions = desktopDepartmentOptions.replace("Select Department", "Select Teacher Department");
+
+    const mobileDepartmentOptions = `
+      <option value="" selected disabled>Select Department</option>
+      <option value="Department of Computer Science & Engineering (CSE)">CSE</option>
+      <option value="Department of Electrical & Electronic Engineering (EEE)">EEE</option>
+      <option value="Department of Electronics and Communications Engineering (ECE)">ECE</option>
+      <option value="Department of Genetic Engineering and Biotechnology (GEB)">GEB</option>
+      <option value="Department of Pharmacy">Pharmacy</option>
+      <option value="Department of Civil Engineering">Civil Engineering</option>
+      <option value="Department of Mathematical and Physical Sciences (MPS)">MPS</option>
+      <option value="Department of English">English</option>
+      <option value="Department of Law">Law</option>
+      <option value="Department of Sociology">Sociology</option>
+      <option value="Department of Information Studies & Library Management">ISLM</option>
+      <option value="Department of Social Relations">Social Relations</option>
+      <option value="Department of Media Communications and International Affairs">MCIA</option>
+      <option value="Department of Business Administration">Business Administration</option>
+      <option value="Department of Economics">Economics</option>
+    `;
+
+    const mobileTeacherDepartmentOptions = mobileDepartmentOptions.replace("Select Department", "Select Teacher Department");
+
+    function applyDepartmentDropdownMode() {
+      const isMobile = window.innerWidth <= 640;
+      const departmentValue = fields.department.value;
+      const teacherDepartmentValue = fields.teacherDepartment.value;
+
+      fields.department.innerHTML = isMobile ? mobileDepartmentOptions : desktopDepartmentOptions;
+      fields.teacherDepartment.innerHTML = isMobile ? mobileTeacherDepartmentOptions : desktopTeacherDepartmentOptions;
+
+      fields.department.value = departmentValue;
+      fields.teacherDepartment.value = teacherDepartmentValue;
+    }
 
     function formatDate(dateValue) {
       if (!dateValue) return "Date";
@@ -1736,9 +1796,13 @@
 
     document.getElementById("downloadBtn").addEventListener("click", () => window.print());
     document.getElementById("clearBtn").addEventListener("click", clearForm);
+    applyDepartmentDropdownMode();
     updatePreview();
     requestAnimationFrame(resizeCoverPreview);
-    window.addEventListener("resize", resizeCoverPreview);
+    window.addEventListener("resize", () => {
+      applyDepartmentDropdownMode();
+      resizeCoverPreview();
+    });
     window.addEventListener("orientationchange", () => setTimeout(resizeCoverPreview, 150));
   </script>
 </body>
