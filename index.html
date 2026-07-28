@@ -755,9 +755,47 @@
       margin-top: 18px;
     }
 
+    .download-control {
+      display: grid;
+      grid-template-columns: minmax(170px, 210px) minmax(220px, auto);
+      align-items: end;
+      gap: 12px;
+      width: min(100%, 450px);
+    }
+
+    .file-type-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .file-type-field label {
+      color: #344054;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .file-type-field select {
+      min-height: 46px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #172554;
+      background-color: #ffffff;
+    }
+
     .preview-download .primary-btn {
-      width: auto;
-      min-width: 210px;
+      width: 100%;
+      min-width: 220px;
+      min-height: 46px;
+    }
+
+    .download-note {
+      grid-column: 1 / -1;
+      margin: -2px 0 0;
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: right;
     }
 
     .cover-stage {
@@ -1349,9 +1387,20 @@
         justify-content: stretch;
       }
 
+      .download-control {
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+
       .preview-actions .secondary-btn,
       .preview-download .primary-btn {
         width: 100%;
+        min-width: 0;
+      }
+
+      .download-note {
+        grid-column: 1;
+        text-align: left;
       }
 
       .cover-stage {
@@ -1495,12 +1544,12 @@
     <section class="hero">
       <div class="hero-copy">
         <h1>Create polished cover pages in seconds.</h1>
-        <p>Select a template, enter your course details, preview instantly, and print or save a professional A4 cover page as PDF.</p>
+        <p>Select a template, enter your course details, preview instantly, and download a professional A4 cover page as PDF or editable Word.</p>
 
         <div class="hero-points">
           <div class="hero-point"><strong>4</strong><span>Free templates</span></div>
           <div class="hero-point"><strong>A4</strong><span>Print-ready format</span></div>
-          <div class="hero-point"><strong>PDF</strong><span>Save from browser</span></div>
+          <div class="hero-point"><strong>2</strong><span>PDF &amp; Word formats</span></div>
         </div>
       </div>
 
@@ -1905,9 +1954,21 @@
         </div>
 
         <div class="preview-download">
-          <button class="primary-btn" type="button" id="downloadBtn">
-            <span class="button-content"><span>Download Cover Page</span><span class="button-icon" aria-hidden="true">↓</span></span>
-          </button>
+          <div class="download-control">
+            <div class="file-type-field">
+              <label for="fileType">File Type</label>
+              <select id="fileType" aria-describedby="downloadNote">
+                <option value="pdf">PDF (.pdf)</option>
+                <option value="docx">Word (.docx)</option>
+              </select>
+            </div>
+
+            <button class="primary-btn" type="button" id="downloadBtn">
+              <span class="button-content"><span id="downloadButtonText">Download PDF</span><span class="button-icon" aria-hidden="true">↓</span></span>
+            </button>
+
+            <p class="download-note" id="downloadNote">PDF opens the print dialog; Word downloads an editable .docx file.</p>
+          </div>
         </div>
       </section>
     </section>
@@ -2209,8 +2270,546 @@
     }
 
     const downloadButton = document.getElementById("downloadBtn");
+    const downloadButtonText = document.getElementById("downloadButtonText");
+    const downloadNote = document.getElementById("downloadNote");
+    const fileTypeSelect = document.getElementById("fileType");
     const printRoot = document.getElementById("printRoot");
     let printCleanupTimer = null;
+
+    function updateDownloadChoice() {
+      const isWord = fileTypeSelect.value === "docx";
+      downloadButtonText.textContent = isWord ? "Download Word" : "Download PDF";
+      downloadNote.textContent = isWord
+        ? "Downloads an editable Microsoft Word (.docx) cover page."
+        : "Opens the browser print dialog—choose Save as PDF.";
+    }
+
+    function xmlEscape(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    }
+
+    function selectedTemplateName() {
+      return ["template-formal", "template-modern", "template-border", "template-clean"]
+        .find(templateName => coverPage.classList.contains(templateName)) || "template-formal";
+    }
+
+    function getCoverData() {
+      updatePreview();
+
+      return {
+        university: UNIVERSITY_NAME,
+        department: textOrDefault(fields.department.value, "Department Name"),
+        reportType: textOrDefault(fields.reportType.value, "Assignment"),
+        reportTitle: textOrDefault(fields.reportTitle.value, "Report Title"),
+        courseTitle: textOrDefault(fields.courseTitle.value, "Course Title"),
+        courseCode: textOrDefault(fields.courseCode.value, "Course Code"),
+        section: textOrDefault(fields.batchSection.value, "Section"),
+        reportNo: textOrDefault(fields.reportNo.value, "Report No"),
+        studentName: textOrDefault(fields.studentName.value, "Student Name"),
+        studentId: textOrDefault(fields.studentId.value, "Student ID"),
+        teacherName: textOrDefault(fields.submittedTo.value, "Teacher Name"),
+        teacherDesignation: textOrDefault(fields.teacherDesignation.value, "Teacher Designation"),
+        teacherDepartment: textOrDefault(fields.teacherDepartment.value, "Teacher Department Name"),
+        performanceDate: formatDate(fields.performanceDate.value),
+        submissionDate: formatDate(fields.submissionDate.value),
+        template: selectedTemplateName()
+      };
+    }
+
+    function wordRun(text, options = {}) {
+      const properties = [
+        options.bold ? "<w:b/>" : "",
+        options.italic ? "<w:i/>" : "",
+        options.color ? `<w:color w:val="${options.color}"/>` : "",
+        options.size ? `<w:sz w:val="${options.size}"/><w:szCs w:val="${options.size}"/>` : "",
+        options.font ? `<w:rFonts w:ascii="${options.font}" w:hAnsi="${options.font}"/>` : ""
+      ].join("");
+
+      return `<w:r><w:rPr>${properties}</w:rPr><w:t xml:space="preserve">${xmlEscape(text)}</w:t></w:r>`;
+    }
+
+    function wordParagraph(runs, options = {}) {
+      const content = Array.isArray(runs) ? runs.join("") : wordRun(runs, options);
+      const paragraphBorder = options.bottomBorder
+        ? `<w:pBdr><w:bottom w:val="single" w:sz="${options.bottomBorder}" w:space="4" w:color="${options.borderColor || "D1D5DB"}"/></w:pBdr>`
+        : "";
+      const shading = options.shading ? `<w:shd w:val="clear" w:fill="${options.shading}"/>` : "";
+
+      return `
+        <w:p>
+          <w:pPr>
+            <w:jc w:val="${options.align || "center"}"/>
+            <w:spacing w:before="${options.before || 0}" w:after="${options.after ?? 120}" w:line="${options.line || 300}" w:lineRule="auto"/>
+            ${options.keepNext ? "<w:keepNext/>" : ""}
+            ${paragraphBorder}
+            ${shading}
+          </w:pPr>
+          ${content}
+        </w:p>`;
+    }
+
+    function wordInfoParagraph(label, value, options = {}) {
+      return wordParagraph([
+        wordRun(`${label}: `, { bold: true, size: options.size || 24 }),
+        wordRun(value, { size: options.size || 24 })
+      ], {
+        align: options.align || "left",
+        after: options.after ?? 80,
+        line: 280
+      });
+    }
+
+    function wordCell(content, options = {}) {
+      const borders = options.borders === false
+        ? `<w:tcBorders>
+            <w:top w:val="nil"/>
+            <w:left w:val="nil"/>
+            <w:bottom w:val="nil"/>
+            <w:right w:val="nil"/>
+          </w:tcBorders>`
+        : "";
+
+      return `
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="${options.width || 4400}" w:type="dxa"/>
+            <w:tcMar>
+              <w:top w:w="150" w:type="dxa"/>
+              <w:left w:w="180" w:type="dxa"/>
+              <w:bottom w:w="150" w:type="dxa"/>
+              <w:right w:w="180" w:type="dxa"/>
+            </w:tcMar>
+            ${options.shading ? `<w:shd w:val="clear" w:fill="${options.shading}"/>` : ""}
+            ${borders}
+          </w:tcPr>
+          ${content}
+        </w:tc>`;
+    }
+
+    function wordTable(rows, options = {}) {
+      const borders = options.borders === false
+        ? `<w:tblBorders>
+            <w:top w:val="nil"/>
+            <w:left w:val="nil"/>
+            <w:bottom w:val="nil"/>
+            <w:right w:val="nil"/>
+            <w:insideH w:val="nil"/>
+            <w:insideV w:val="nil"/>
+          </w:tblBorders>`
+        : `<w:tblBorders>
+            <w:top w:val="single" w:sz="8" w:color="${options.borderColor || "D1D5DB"}"/>
+            <w:left w:val="single" w:sz="8" w:color="${options.borderColor || "D1D5DB"}"/>
+            <w:bottom w:val="single" w:sz="8" w:color="${options.borderColor || "D1D5DB"}"/>
+            <w:right w:val="single" w:sz="8" w:color="${options.borderColor || "D1D5DB"}"/>
+            <w:insideH w:val="single" w:sz="6" w:color="${options.borderColor || "D1D5DB"}"/>
+            <w:insideV w:val="single" w:sz="6" w:color="${options.borderColor || "D1D5DB"}"/>
+          </w:tblBorders>`;
+
+      return `
+        <w:tbl>
+          <w:tblPr>
+            <w:tblW w:w="0" w:type="auto"/>
+            <w:tblLayout w:type="fixed"/>
+            ${borders}
+          </w:tblPr>
+          ${rows.join("")}
+        </w:tbl>`;
+    }
+
+    function wordLogoParagraph() {
+      return `
+        <w:p>
+          <w:pPr>
+            <w:jc w:val="center"/>
+            <w:spacing w:after="120"/>
+          </w:pPr>
+          <w:r>
+            <w:drawing>
+              <wp:inline distT="0" distB="0" distL="0" distR="0">
+                <wp:extent cx="822960" cy="822960"/>
+                <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                <wp:docPr id="1" name="East West University Logo"/>
+                <wp:cNvGraphicFramePr>
+                  <a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>
+                </wp:cNvGraphicFramePr>
+                <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                  <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                    <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                      <pic:nvPicPr>
+                        <pic:cNvPr id="0" name="ewu-logo.png"/>
+                        <pic:cNvPicPr/>
+                      </pic:nvPicPr>
+                      <pic:blipFill>
+                        <a:blip r:embed="rIdLogo"/>
+                        <a:stretch><a:fillRect/></a:stretch>
+                      </pic:blipFill>
+                      <pic:spPr>
+                        <a:xfrm>
+                          <a:off x="0" y="0"/>
+                          <a:ext cx="822960" cy="822960"/>
+                        </a:xfrm>
+                        <a:prstGeom prst="rect"><a:avLst/></a:prstGeom>
+                      </pic:spPr>
+                    </pic:pic>
+                  </a:graphicData>
+                </a:graphic>
+              </wp:inline>
+            </w:drawing>
+          </w:r>
+        </w:p>`;
+    }
+
+    function templatePageBorder(template) {
+      if (template === "template-modern") {
+        return `<w:pgBorders w:offsetFrom="page"><w:left w:val="single" w:sz="32" w:space="18" w:color="1D2F68"/></w:pgBorders>`;
+      }
+
+      if (template === "template-border") {
+        return `<w:pgBorders w:offsetFrom="page">
+          <w:top w:val="double" w:sz="18" w:space="18" w:color="1D2F68"/>
+          <w:left w:val="double" w:sz="18" w:space="18" w:color="1D2F68"/>
+          <w:bottom w:val="double" w:sz="18" w:space="18" w:color="1D2F68"/>
+          <w:right w:val="double" w:sz="18" w:space="18" w:color="1D2F68"/>
+        </w:pgBorders>`;
+      }
+
+      if (template === "template-clean") {
+        return `<w:pgBorders w:offsetFrom="page"><w:bottom w:val="single" w:sz="32" w:space="18" w:color="1D2F68"/></w:pgBorders>`;
+      }
+
+      return "";
+    }
+
+    function buildDocumentXml(data, includeLogo) {
+      const accent = "1D2F68";
+      const light = data.template === "template-formal" ? "FFFFFF" : "F6F8FC";
+      const cardBorders = data.template === "template-formal" || data.template === "template-border";
+
+      const infoRows = [
+        ["Course Title", data.courseTitle],
+        ["Course Code", data.courseCode],
+        ["Section", data.section],
+        ["Report No", data.reportNo]
+      ].map(([label, value]) => `
+        <w:tr>
+          ${wordCell(wordInfoParagraph(label, value, { size: 24 }), {
+            width: 8800,
+            shading: data.template === "template-modern" ? light : "",
+            borders: false
+          })}
+        </w:tr>`);
+
+      const submittedBy = [
+        wordParagraph(wordRun("SUBMITTED BY", { bold: true, color: accent, size: 26 }), {
+          align: "left",
+          after: 150,
+          bottomBorder: 12,
+          borderColor: accent
+        }),
+        wordInfoParagraph("Name", data.studentName, { size: 23 }),
+        wordInfoParagraph("ID", data.studentId, { size: 23 })
+      ].join("");
+
+      const submittedTo = [
+        wordParagraph(wordRun("SUBMITTED TO", { bold: true, color: accent, size: 26 }), {
+          align: "left",
+          after: 150,
+          bottomBorder: 12,
+          borderColor: accent
+        }),
+        wordParagraph(wordRun(data.teacherName, { size: 23 }), { align: "left", after: 70 }),
+        wordParagraph(wordRun(data.teacherDesignation, { size: 23 }), { align: "left", after: 70 }),
+        wordParagraph(wordRun(data.teacherDepartment, { size: 23 }), { align: "left", after: 70 })
+      ].join("");
+
+      const submissionTable = wordTable([
+        `<w:tr>
+          ${wordCell(submittedBy, {
+            width: 4300,
+            shading: light,
+            borders: cardBorders
+          })}
+          ${wordCell(submittedTo, {
+            width: 4300,
+            shading: light,
+            borders: cardBorders
+          })}
+        </w:tr>`
+      ], {
+        borders: cardBorders,
+        borderColor: accent
+      });
+
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:document
+          xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+          xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+          xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+          xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
+          xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+          <w:body>
+            ${includeLogo ? wordLogoParagraph() : ""}
+            ${wordParagraph(wordRun(data.university, {
+              bold: true,
+              color: accent,
+              size: 36,
+              font: "Times New Roman"
+            }), { keepNext: true, after: 60 })}
+            ${wordParagraph(wordRun(data.department, {
+              color: "2D3748",
+              size: 25,
+              font: "Times New Roman"
+            }), { keepNext: true, after: 260 })}
+            ${wordTable(infoRows, {
+              borders: data.template === "template-border",
+              borderColor: data.template === "template-border" ? accent : "D1D5DB"
+            })}
+            ${wordParagraph(wordRun(data.reportType.toUpperCase(), {
+              bold: true,
+              color: accent,
+              size: 32,
+              font: "Times New Roman"
+            }), { before: 620, after: 280 })}
+            ${wordParagraph([
+              wordRun("Title: ", { bold: true, size: 34, font: "Times New Roman" }),
+              wordRun(data.reportTitle, { bold: true, size: 34, font: "Times New Roman" })
+            ], { after: 820, line: 360 })}
+            ${submissionTable}
+            ${wordParagraph([
+              wordRun("Date of Performance: ", { bold: true, size: 23 }),
+              wordRun(data.performanceDate, { size: 23 })
+            ], { before: 280, after: 80 })}
+            ${wordParagraph([
+              wordRun("Date of Submission: ", { bold: true, size: 23 }),
+              wordRun(data.submissionDate, { size: 23 })
+            ], { after: 0 })}
+            <w:sectPr>
+              <w:pgSz w:w="11906" w:h="16838"/>
+              <w:pgMar w:top="760" w:right="850" w:bottom="760" w:left="850" w:header="0" w:footer="0" w:gutter="0"/>
+              ${templatePageBorder(data.template)}
+              <w:cols w:space="720"/>
+              <w:docGrid w:linePitch="360"/>
+            </w:sectPr>
+          </w:body>
+        </w:document>`;
+    }
+
+    function createDocxFiles(data, logoBytes) {
+      const includeLogo = Boolean(logoBytes && logoBytes.length);
+      const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+          <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+          <Default Extension="xml" ContentType="application/xml"/>
+          ${includeLogo ? '<Default Extension="png" ContentType="image/png"/>' : ""}
+          <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+          <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+        </Types>`;
+
+      const packageRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+          <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+        </Relationships>`;
+
+      const documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+          <Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+          ${includeLogo ? '<Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/ewu-logo.png"/>' : ""}
+        </Relationships>`;
+
+      const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+          <w:docDefaults>
+            <w:rPrDefault>
+              <w:rPr>
+                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman"/>
+                <w:sz w:val="24"/>
+                <w:szCs w:val="24"/>
+              </w:rPr>
+            </w:rPrDefault>
+            <w:pPrDefault>
+              <w:pPr><w:spacing w:after="120" w:line="300" w:lineRule="auto"/></w:pPr>
+            </w:pPrDefault>
+          </w:docDefaults>
+          <w:style w:type="paragraph" w:default="1" w:styleId="Normal">
+            <w:name w:val="Normal"/>
+            <w:qFormat/>
+          </w:style>
+        </w:styles>`;
+
+      const files = [
+        { name: "[Content_Types].xml", data: contentTypes },
+        { name: "_rels/.rels", data: packageRels },
+        { name: "word/document.xml", data: buildDocumentXml(data, includeLogo) },
+        { name: "word/styles.xml", data: styles },
+        { name: "word/_rels/document.xml.rels", data: documentRels }
+      ];
+
+      if (includeLogo) {
+        files.push({ name: "word/media/ewu-logo.png", data: logoBytes });
+      }
+
+      return files;
+    }
+
+    const crcTable = (() => {
+      const table = new Uint32Array(256);
+      for (let index = 0; index < 256; index += 1) {
+        let value = index;
+        for (let bit = 0; bit < 8; bit += 1) {
+          value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
+        }
+        table[index] = value >>> 0;
+      }
+      return table;
+    })();
+
+    function crc32(bytes) {
+      let crc = 0xffffffff;
+      for (const byte of bytes) {
+        crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+      }
+      return (crc ^ 0xffffffff) >>> 0;
+    }
+
+    function concatenateBytes(parts) {
+      const totalLength = parts.reduce((total, part) => total + part.length, 0);
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      parts.forEach(part => {
+        result.set(part, offset);
+        offset += part.length;
+      });
+      return result;
+    }
+
+    function buildStoredZip(files) {
+      const encoder = new TextEncoder();
+      const localParts = [];
+      const centralParts = [];
+      let localOffset = 0;
+
+      files.forEach(file => {
+        const nameBytes = encoder.encode(file.name);
+        const dataBytes = typeof file.data === "string" ? encoder.encode(file.data) : file.data;
+        const checksum = crc32(dataBytes);
+
+        const localHeader = new Uint8Array(30 + nameBytes.length);
+        const localView = new DataView(localHeader.buffer);
+        localView.setUint32(0, 0x04034b50, true);
+        localView.setUint16(4, 20, true);
+        localView.setUint16(6, 0x0800, true);
+        localView.setUint16(8, 0, true);
+        localView.setUint16(10, 0, true);
+        localView.setUint16(12, 0x0021, true);
+        localView.setUint32(14, checksum, true);
+        localView.setUint32(18, dataBytes.length, true);
+        localView.setUint32(22, dataBytes.length, true);
+        localView.setUint16(26, nameBytes.length, true);
+        localView.setUint16(28, 0, true);
+        localHeader.set(nameBytes, 30);
+        localParts.push(localHeader, dataBytes);
+
+        const centralHeader = new Uint8Array(46 + nameBytes.length);
+        const centralView = new DataView(centralHeader.buffer);
+        centralView.setUint32(0, 0x02014b50, true);
+        centralView.setUint16(4, 20, true);
+        centralView.setUint16(6, 20, true);
+        centralView.setUint16(8, 0x0800, true);
+        centralView.setUint16(10, 0, true);
+        centralView.setUint16(12, 0, true);
+        centralView.setUint16(14, 0x0021, true);
+        centralView.setUint32(16, checksum, true);
+        centralView.setUint32(20, dataBytes.length, true);
+        centralView.setUint32(24, dataBytes.length, true);
+        centralView.setUint16(28, nameBytes.length, true);
+        centralView.setUint16(30, 0, true);
+        centralView.setUint16(32, 0, true);
+        centralView.setUint16(34, 0, true);
+        centralView.setUint16(36, 0, true);
+        centralView.setUint32(38, 0, true);
+        centralView.setUint32(42, localOffset, true);
+        centralHeader.set(nameBytes, 46);
+        centralParts.push(centralHeader);
+
+        localOffset += localHeader.length + dataBytes.length;
+      });
+
+      const centralDirectory = concatenateBytes(centralParts);
+      const endRecord = new Uint8Array(22);
+      const endView = new DataView(endRecord.buffer);
+      endView.setUint32(0, 0x06054b50, true);
+      endView.setUint16(4, 0, true);
+      endView.setUint16(6, 0, true);
+      endView.setUint16(8, files.length, true);
+      endView.setUint16(10, files.length, true);
+      endView.setUint32(12, centralDirectory.length, true);
+      endView.setUint32(16, localOffset, true);
+      endView.setUint16(20, 0, true);
+
+      return new Blob([...localParts, centralDirectory, endRecord], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      });
+    }
+
+    async function loadLogoBytes() {
+      try {
+        const logo = document.querySelector(".cover-logo");
+        const response = await fetch(logo.src);
+        if (!response.ok) return null;
+        return new Uint8Array(await response.arrayBuffer());
+      } catch (error) {
+        console.warn("The Word file will be created without the logo.", error);
+        return null;
+      }
+    }
+
+    function safeFileName(value) {
+      const cleaned = String(value || "cover-page")
+        .normalize("NFKD")
+        .replace(/[^\w\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .slice(0, 70);
+      return cleaned || "cover-page";
+    }
+
+    function saveBlob(blob, fileName) {
+      const link = document.createElement("a");
+      const objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    }
+
+    async function downloadWordDocument() {
+      downloadButton.disabled = true;
+      downloadButton.setAttribute("aria-busy", "true");
+      downloadButtonText.textContent = "Creating Word...";
+
+      try {
+        const data = getCoverData();
+        const logoBytes = await loadLogoBytes();
+        const docxBlob = buildStoredZip(createDocxFiles(data, logoBytes));
+        const baseName = safeFileName(`${data.studentName}-${data.courseCode}-cover`);
+        saveBlob(docxBlob, `${baseName}.docx`);
+      } catch (error) {
+        console.error(error);
+        window.alert("The Word file could not be created. Please try again.");
+      } finally {
+        downloadButton.disabled = false;
+        downloadButton.removeAttribute("aria-busy");
+        updateDownloadChoice();
+      }
+    }
 
     function prepareCoverPrint() {
       updatePreview();
@@ -2264,10 +2863,19 @@
       }
     });
 
-    downloadButton.addEventListener("click", downloadCoverPage);
+    downloadButton.addEventListener("click", () => {
+      if (fileTypeSelect.value === "docx") {
+        downloadWordDocument();
+        return;
+      }
+
+      downloadCoverPage();
+    });
+    fileTypeSelect.addEventListener("change", updateDownloadChoice);
     document.getElementById("clearBtn").addEventListener("click", clearForm);
     applyDepartmentDropdownMode();
     updatePreview();
+    updateDownloadChoice();
     updateScrollProgress();
     requestAnimationFrame(resizeCoverPreview);
     window.addEventListener("scroll", updateScrollProgress, { passive: true });
